@@ -156,6 +156,8 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
   border: 2px solid rgba(255,255,255,.85); }
 .vid .th::before { content: ""; position: absolute; z-index: 1; left: 50%; top: 50%; margin: -9px 0 0 -5px; border-left: 16px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
 .vid:hover .th::after { background: var(--accent); border-color: var(--accent); }
+.vid .th.playing::before, .vid .th.playing::after { display: none; }
+.vid .th iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .vid b { font-size: 14px; line-height: 1.3; }
 .vid span { font-size: 12px; color: var(--text-2); }
 /* agenda */
@@ -344,13 +346,16 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
   const pct = (v) => v == null ? "—" : `${v > 0 ? "+" : ""}${v.toFixed(2).replace(".", ",")} %`;
   const link = (name, url, cls) => { const u = safeUrl(url); const a = el(u ? "a" : "span", cls || "src", name); if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; } return a; };
 
-  const state = { sources: [], regions: [], db: null, user: null, uid: null, editions: [], media: {}, current: null, slides: [], at: 0,
+  const PRIVATE_URL = "https://claude.ai/artifact/NaGRp2uXY2z1qKES7QtiQM";
+  const QUIZ_KEY = "rotativa-quiz";
+  const state = { mode: "db", sources: [], regions: [], db: null, user: null, uid: null, editions: [], media: {}, current: null, slides: [], at: 0,
                   selected: new Set(), saved: null, canWrite: null, filters: { q: "", free: false, on: false }, quiz: {} };
 
   // ================================================================ routing
   function route() {
     const h = location.hash.replace(/^#/, "");
-    const view = h === "archivo" ? "archivo" : h === "periodicos" ? "periodicos" : "stories";
+    let view = h === "archivo" ? "archivo" : h === "periodicos" ? "periodicos" : "stories";
+    if (view === "periodicos" && state.mode === "static") view = "archivo";   // choosing papers lives on the private page
     $("view-stories").hidden = view !== "stories";
     $("view-archivo").hidden = view !== "archivo";
     $("view-periodicos").hidden = view !== "periodicos";
@@ -372,7 +377,15 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
     b.stories = b.stories || [];
     return b;
   }
-  const imgOf = (key) => (key && state.current && state.media[state.current.id] && state.media[state.current.id][key]) || null;
+  // Photo for a story or video. The private Claude page embeds copies stored with the edition
+  // (it cannot load images from other sites); the public site loads them from the newspapers.
+  const photoFor = (o) => {
+    if (!o) return null;
+    if (state.mode === "static") return safeUrl(o.imgUrl);
+    const m = state.current && state.media[state.current.id];
+    return (o.img && m && m[o.img]) || null;
+  };
+  const picksUrl = () => state.mode === "static" ? PRIVATE_URL + "#periodicos" : "#periodicos";
 
   function slide(kind, opts) {
     const s = el("article", "slide" + (opts.photo ? "" : " plain"));
@@ -396,7 +409,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
 
   function coverSlide(doc, b) {
     const lead = b.stories[0] || {};
-    const sl = slide("cover", { photo: imgOf(lead.img), blur: true, title: "Portada", label: "Portada" });
+    const sl = slide("cover", { photo: photoFor(lead), blur: true, title: "Portada", label: "Portada" });
     const k = el("div", "kick");
     k.append(el("span", "chip", b.edition === "semanal" ? "La semana en 10 historias" : "Edición diaria"), el("span", null, longDate(doc.date)));
     sl.inner.append(k, el("h1", "big", b.headline || doc.headline || ""));
@@ -412,7 +425,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
 
   function storySlide(st, i, n) {
     const tone = TOPIC[st.topic] || "var(--accent)";
-    const sl = slide("story", { photo: imgOf(st.img), tone, title: st.title, label: st.topic });
+    const sl = slide("story", { photo: photoFor(st), tone, title: st.title, label: st.topic });
     const k = el("div", "kick"); k.append(el("span", "chip", st.topic || "Noticia"), el("span", "n", `${i + 1} / ${n}`));
     sl.inner.append(k, el("h2", "st", st.title), el("p", "lede", st.summary || st.short || ""));
     const meta = el("div", "meta");
@@ -438,7 +451,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
 
   function twoViewsSlide(tv, b) {
     const story = b.stories.find(s => s.title === tv.title) || {};
-    const sl = slide("twoviews", { photo: imgOf(story.img), wide: true, title: tv.title, label: "Dos miradas" });
+    const sl = slide("twoviews", { photo: photoFor(story), wide: true, title: tv.title, label: "Dos miradas" });
     sl.inner.append(el("div", "label", "Dos miradas"), el("h2", "st", tv.title));
     if (tv.context) sl.inner.appendChild(el("p", "lede muted", tv.context));
     const g = el("div", "split");
@@ -583,11 +596,21 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
 
   function videosSlide(doc) {
     const sl = slide("videos", { title: "Vídeos del día", label: "Vídeos", wide: true, tone: "var(--t-esp)" });
-    sl.inner.append(el("div", "label", "Vídeos del día"), el("h2", "st", "Para ver"), el("p", "lede muted", "Se abren en YouTube."));
+    const inline = state.mode === "static";
+    sl.inner.append(el("div", "label", "Vídeos del día"), el("h2", "st", "Para ver"), el("p", "lede muted", inline ? "Pulsa un vídeo para verlo aquí." : "Se abren en YouTube."));
     const g = el("div", "vids");
     (doc.videos || []).forEach(v => {
       const a = el("a", "vid"); const u = safeUrl(v.url); if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; }
-      const th = el("div", "th"); const src = imgOf(v.img); if (src) th.style.backgroundImage = `url("${src}")`;
+      const th = el("div", "th"); const src = photoFor(v); if (src) th.style.backgroundImage = `url("${src}")`;
+      const m = /[?&]v=([\w-]{11})/.exec(v.url || "");
+      if (inline && m) a.addEventListener("click", (e) => {
+        if (th.classList.contains("playing")) return;
+        e.preventDefault();
+        const f = document.createElement("iframe");
+        f.src = `https://www.youtube-nocookie.com/embed/${m[1]}?autoplay=1&rel=0`;
+        f.title = v.title || "Vídeo"; f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen = true;
+        th.classList.add("playing"); th.appendChild(f);
+      });
       a.append(th, el("b", null, v.title || ""), el("span", null, [v.channel, v.note].filter(Boolean).join(" · ")));
       g.appendChild(a);
     });
@@ -666,7 +689,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
     sl.inner.appendChild(ol);
     const go = el("div", "go");
     const arch = el("a", "btn", "Ver el archivo"); arch.href = "#archivo";
-    const pick = el("a", "btn ghost", "Cambiar mis periódicos"); pick.href = "#periodicos";
+    const pick = el("a", "btn ghost", "Cambiar mis periódicos"); pick.href = picksUrl();
     go.append(arch, pick); sl.inner.append(go, el("p", "meta", "La próxima edición llega mañana a las 08:00, hora de Reino Unido."));
     return sl;
   }
@@ -726,7 +749,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
   }
 
   async function loadMedia(doc) {
-    if (state.media[doc.id] || !state.db) return;
+    if (state.mode === "static" || state.media[doc.id] || !state.db) return;
     state.media[doc.id] = {};
     try {
       const snap = await state.db.collection("media").where("edition", "==", doc.id).get();
@@ -736,7 +759,11 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
 
   async function openEdition(id) {
     if (!state.editions.length) { renderEmptyStage(state.loaded ? null : "Cargando la edición de hoy…", !state.loaded); return; }
-    const doc = (id && state.editions.find(e => e.id === id)) || state.editions[0];
+    let doc = (id && state.editions.find(e => e.id === id)) || state.editions[0];
+    if (state.mode === "static" && !doc.briefing) {   // the public index holds summaries; load the edition itself
+      try { Object.assign(doc, await (await fetch(`editions/${doc.id}.json`, { cache: "no-cache" })).json()); }
+      catch (e) { renderEmptyStage("No se pudo cargar esta edición. Recarga la página."); return; }
+    }
     const same = state.current && state.current.id === doc.id && state.current.createdAt === doc.createdAt;
     if (same && state.slides.length) return;
     state.current = doc;
@@ -751,7 +778,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
     sl.inner.append(el("div", "label", "Rotativa"), el("h1", "big", msg || "Tu primera edición llega mañana a las 08:00"));
     if (!loading) {
       sl.inner.appendChild(el("p", "lede muted", "Cada mañana aparecerá aquí la edición del día como historias a pantalla completa: fotos, mapa, mercados, vídeos y un test."));
-      const go = el("div", "go"); const a = el("a", "btn", "Elegir mis periódicos"); a.href = "#periodicos"; go.appendChild(a); sl.inner.appendChild(go);
+      const go = el("div", "go"); const a = el("a", "btn", "Elegir mis periódicos"); a.href = picksUrl(); go.appendChild(a); sl.inner.appendChild(go);
     }
     state.slides = [sl]; $("slides").replaceChildren(sl.node); $("segs").replaceChildren(el("i")); sl.node.classList.add("on");
     $("date").textContent = ""; $("prev").disabled = true; $("next").disabled = true;
@@ -795,10 +822,12 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
     const score = answers.filter((a, i) => a === b.quiz[i].answer).length;
     const rec = { edition: doc.id, date: doc.date, answers: answers.slice(), score, total: b.quiz.length, complete: done === b.quiz.length, at: new Date().toISOString() };
     state.quiz[doc.id] = rec;
+    if (state.mode === "static") { try { localStorage.setItem(QUIZ_KEY, JSON.stringify(state.quiz)); } catch (e) {} return; }
     if (!state.db || !state.uid) return;
     try { await state.db.collection("data/users/" + state.uid).doc("quiz-" + doc.id).set(rec); } catch (e) {}
   }
   async function loadQuiz() {
+    if (state.mode === "static") { try { Object.assign(state.quiz, JSON.parse(localStorage.getItem(QUIZ_KEY) || "{}")); } catch (e) {} return; }
     if (!state.db || !state.uid) return;
     try {
       const snap = await state.db.collection("data/users/" + state.uid).get();
@@ -810,12 +839,13 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
   function renderArchive() {
     const host = $("eds"); host.replaceChildren();
     if (!state.editions.length) {
-      host.appendChild(el("div", "empty", state.db ? "Aún no hay ediciones. La primera llegará mañana a las 08:00 (hora de Reino Unido)." : "Inicia sesión en claude.ai para ver el archivo."));
+      host.appendChild(el("div", "empty", state.db || state.mode === "static" ? "Aún no hay ediciones. La primera llegará mañana a las 08:00 (hora de Reino Unido)." : "Inicia sesión en claude.ai para ver el archivo."));
       return;
     }
     state.editions.forEach(doc => {
       const a = el("a", "ed"); a.href = "#d-" + doc.id;
-      const cv = el("div", "cv"); if (doc.cover) cv.style.backgroundImage = `url("${doc.cover}")`;
+      const cover = state.mode === "static" ? safeUrl(doc.coverUrl) : doc.cover;
+      const cv = el("div", "cv"); if (cover) cv.style.backgroundImage = `url("${cover}")`;
       const tx = el("div", "tx");
       if (doc.edition === "semanal") tx.appendChild(el("span", "badge", "Semanal"));
       tx.append(el("span", "d", longDate(doc.date)), el("span", "h", doc.headline || ""));
@@ -908,9 +938,29 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
     } catch (e) { renderEmptyStage("Vista previa sin datos"); }
   }
 
+  async function staticSite() {
+    // Public website (GitHub Pages): editions are plain JSON files next to the page.
+    let list;
+    try {
+      const res = await fetch("editions/index.json", { cache: "no-cache" });
+      if (!res.ok) return false;
+      list = await res.json();
+    } catch (e) { return false; }
+    state.mode = "static"; state.loaded = true;
+    state.editions = (list.editions || []).slice().sort((a, b) => (b.date || "").localeCompare(a.date || "") || (a.edition === "semanal" ? -1 : 1));
+    document.querySelectorAll('a[href="#periodicos"]').forEach(a => { a.href = PRIVATE_URL + "#periodicos"; a.target = "_blank"; a.rel = "noopener"; a.removeAttribute("aria-current"); });
+    await loadQuiz();
+    route();
+    return true;
+  }
+
   async function connect() {
     const claude = window.claude;
-    if (!claude || !claude.use) { if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return devPreview(); renderEmptyStage(); return; }
+    if (!claude || !claude.use) {
+      if (await staticSite()) return;
+      if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return devPreview();
+      renderEmptyStage(); return;
+    }
     const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
     if (user) {
       try { const can = await user.can("data.write"); state.canWrite = can === null ? null : !!can; } catch (e) {}

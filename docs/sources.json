@@ -1,0 +1,1922 @@
+{
+  "generated": "2026-11-07",
+  "regions": [
+    {
+      "id": "espana",
+      "name": "España"
+    },
+    {
+      "id": "reino-unido",
+      "name": "Reino Unido"
+    },
+    {
+      "id": "europa",
+      "name": "Europa"
+    },
+    {
+      "id": "norteamerica",
+      "name": "EE. UU. y Canadá"
+    },
+    {
+      "id": "latam",
+      "name": "Latinoamérica"
+    },
+    {
+      "id": "asia",
+      "name": "Asia-Pacífico"
+    },
+    {
+      "id": "oriente-africa",
+      "name": "Oriente Medio y África"
+    },
+    {
+      "id": "global",
+      "name": "Agencias y medios globales"
+    }
+  ],
+  "sources": [
+    {
+      "id": "elpais",
+      "name": "El País",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://elpais.com",
+      "feeds": {
+        "main": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
+        "world": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/internacional/portada",
+        "business": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/economia/portada",
+        "national": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/espana/portada"
+      },
+      "why": "Mayor base de suscriptores digitales de España (451.000) y 14% de alcance online semanal.",
+      "fetchNotes": "",
+      "defaultOn": true
+    },
+    {
+      "id": "eldiario",
+      "name": "elDiario.es",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "digital",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.eldiario.es",
+      "feeds": {
+        "main": "https://www.eldiario.es/rss/",
+        "world": "https://www.eldiario.es/rss/internacional/",
+        "business": "https://www.eldiario.es/rss/economia/",
+        "politics": "https://www.eldiario.es/rss/politica/"
+      },
+      "why": "Nativo digital gratuito; empata con El País en alcance online (14%) y ya supera a OKDiario.",
+      "fetchNotes": "",
+      "defaultOn": true
+    },
+    {
+      "id": "elmundo",
+      "name": "El Mundo",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.elmundo.es",
+      "feeds": {
+        "main": "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",
+        "world": "https://e00-elmundo.uecdn.es/elmundo/rss/internacional.xml",
+        "business": "https://e00-elmundo.uecdn.es/elmundo/rss/economia.xml",
+        "national": "https://e00-elmundo.uecdn.es/elmundo/rss/espana.xml"
+      },
+      "why": "Segundo gran diario generalista: 12% de alcance online y 181.000 suscriptores digitales.",
+      "fetchNotes": "Alias https://www.elmundo.es/rss/portada.xml also works.",
+      "defaultOn": true
+    },
+    {
+      "id": "abc",
+      "name": "ABC",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.abc.es",
+      "feeds": {
+        "main": "https://www.abc.es/rss/2.0/portada/",
+        "world": "https://www.abc.es/rss/2.0/internacional/",
+        "business": "https://www.abc.es/rss/2.0/economia/",
+        "national": "https://www.abc.es/rss/2.0/espana/"
+      },
+      "why": "Diario conservador y monárquico histórico; alta fiabilidad factual según MBFC.",
+      "fetchNotes": "Avoid legacy /rss/feeds/abcPortada.xml (frozen since 2016).",
+      "defaultOn": true
+    },
+    {
+      "id": "lavanguardia",
+      "name": "La Vanguardia",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://www.lavanguardia.com",
+      "feeds": {
+        "main": "https://www.lavanguardia.com/rss/home.xml",
+        "world": "https://www.lavanguardia.com/rss/internacional.xml",
+        "business": "https://www.lavanguardia.com/rss/economia.xml",
+        "politics": "https://www.lavanguardia.com/rss/politica.xml"
+      },
+      "why": "Principal diario de Cataluña y tercera base de suscriptores digitales de España (167.000).",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "elconfidencial",
+      "name": "El Confidencial",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "digital",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.elconfidencial.com",
+      "feeds": {
+        "national": "https://rss.elconfidencial.com/espana/",
+        "world": "https://rss.elconfidencial.com/mundo/",
+        "business": "https://rss.elconfidencial.com/economia/",
+        "markets": "https://rss.elconfidencial.com/mercados/"
+      },
+      "why": "Nativo digital de economía, política e investigación; 9% de alcance online semanal.",
+      "fetchNotes": "Atom; only 15 items per feed; no homepage feed (www.elconfidencial.com/rss/ serves HTML).",
+      "defaultOn": false
+    },
+    {
+      "id": "elespanol",
+      "name": "El Español",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "digital",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.elespanol.com",
+      "feeds": {
+        "main": "https://www.elespanol.com/rss/",
+        "national": "https://www.elespanol.com/rss/espana/",
+        "world": "https://www.elespanol.com/rss/mundo/",
+        "business": "https://www.elespanol.com/rss/invertia/"
+      },
+      "why": "Dice liderar GfK DAM (18,4 M de usuarios en mayo de 2026, dato propio); 9% de alcance online.",
+      "fetchNotes": "Paywall model not verified.",
+      "defaultOn": false
+    },
+    {
+      "id": "europapress",
+      "name": "Europa Press",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "agencia",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.europapress.es",
+      "feeds": {
+        "main": "https://www.europapress.es/rss/rss.aspx",
+        "world": "https://www.europapress.es/rss/rss.aspx?ch=00069",
+        "business": "https://www.europapress.es/rss/rss.aspx?ch=00136",
+        "national": "https://www.europapress.es/rss/rss.aspx?ch=00066"
+      },
+      "why": "Agencia privada neutral; sustituto operativo de EFE y RTVE, cuyos feeds no funcionan.",
+      "fetchNotes": "Only 10 items per feed; poll several times before the briefing.",
+      "defaultOn": false
+    },
+    {
+      "id": "expansion",
+      "name": "Expansión",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "diario económico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.expansion.com",
+      "feeds": {
+        "main": "https://www.expansion.com/rss/portada.xml",
+        "business": "https://e00-expansion.uecdn.es/rss/economia.xml",
+        "markets": "https://e00-expansion.uecdn.es/rss/mercados.xml",
+        "companies": "https://e00-expansion.uecdn.es/rss/empresas.xml"
+      },
+      "why": "Principal diario económico de España, con 110.000 suscriptores digitales (2025).",
+      "fetchNotes": "Use the www main feed; the CDN portada variant lags.",
+      "defaultOn": false
+    },
+    {
+      "id": "cincodias",
+      "name": "Cinco Días",
+      "region": "espana",
+      "country": "España",
+      "lang": "es",
+      "type": "diario económico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://cincodias.elpais.com",
+      "feeds": {
+        "main": "https://feeds.elpais.com/mrss-s/pages/ep/site/cincodias.elpais.com/portada",
+        "markets": "https://feeds.elpais.com/mrss-s/pages/ep/site/cincodias.elpais.com/section/mercados-financieros/portada",
+        "business": "https://feeds.elpais.com/mrss-s/pages/ep/site/cincodias.elpais.com/section/economia/portada"
+      },
+      "why": "Segundo diario económico español (grupo PRISA); fuerte en mercados financieros.",
+      "fetchNotes": "Economy feed has low churn (old items); paywall model not verified.",
+      "defaultOn": false
+    },
+    {
+      "id": "bbc",
+      "name": "BBC News",
+      "region": "reino-unido",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.bbc.co.uk/news",
+      "feeds": {
+        "main": "https://feeds.bbci.co.uk/news/rss.xml",
+        "world": "https://feeds.bbci.co.uk/news/world/rss.xml",
+        "business": "https://feeds.bbci.co.uk/news/business/rss.xml",
+        "national": "https://feeds.bbci.co.uk/news/uk/rss.xml",
+        "politics": "https://feeds.bbci.co.uk/news/politics/rss.xml",
+        "middleeast": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
+        "africa": "https://feeds.bbci.co.uk/news/world/africa/rss.xml"
+      },
+      "why": "Llega al 77% de los adultos británicos al mes; web informativa nº 1 del país (41,2 M de usuarios).",
+      "fetchNotes": "Main feed mixes old items; bbc.com is metered for US/Canada visitors (free in the UK).",
+      "defaultOn": true
+    },
+    {
+      "id": "guardian",
+      "name": "The Guardian",
+      "region": "reino-unido",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.theguardian.com",
+      "feeds": {
+        "main": "https://www.theguardian.com/uk/rss",
+        "world": "https://www.theguardian.com/world/rss",
+        "business": "https://www.theguardian.com/uk/business/rss",
+        "economy": "https://www.theguardian.com/business/economics/rss",
+        "politics": "https://www.theguardian.com/politics/rss",
+        "national": "https://www.theguardian.com/uk-news/rss",
+        "us": "https://www.theguardian.com/us-news/rss",
+        "australia": "https://www.theguardian.com/australia-news/rss"
+      },
+      "why": "Gran diario progresista británico; todo su contenido es gratis y lo apoyan 1,4 M de lectores.",
+      "fetchNotes": "Some feeds hold items back to 2019; filter by pubDate.",
+      "defaultOn": true
+    },
+    {
+      "id": "ft",
+      "name": "Financial Times",
+      "region": "reino-unido",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "diario económico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "muro",
+      "homepage": "https://www.ft.com",
+      "feeds": {
+        "main": "https://www.ft.com/rss/home",
+        "uk": "https://www.ft.com/rss/home/uk",
+        "world": "https://www.ft.com/world?format=rss",
+        "economy": "https://www.ft.com/global-economy?format=rss",
+        "markets": "https://www.ft.com/markets?format=rss",
+        "companies": "https://www.ft.com/companies?format=rss"
+      },
+      "why": "Referencia mundial en economía y mercados; de las marcas más fiables del Reino Unido.",
+      "fetchNotes": "Hard paywall: RSS gives headline and standfirst only; home feed ~11 items.",
+      "defaultOn": false
+    },
+    {
+      "id": "dailymail",
+      "name": "Daily Mail",
+      "region": "reino-unido",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.dailymail.co.uk",
+      "feeds": {
+        "main": "https://www.dailymail.co.uk/articles.rss",
+        "national": "https://www.dailymail.co.uk/news/index.rss",
+        "world": "https://www.dailymail.co.uk/news/worldnews/index.rss",
+        "business": "https://www.dailymail.co.uk/money/index.rss"
+      },
+      "why": "DMGT llega al 23% de los británicos; la voz conservadora con feed operativo (tabloide).",
+      "fetchNotes": "Feeds redirect to dailymail.com; mixed UK/US edition; tabloid.",
+      "defaultOn": true
+    },
+    {
+      "id": "independent",
+      "name": "The Independent",
+      "region": "reino-unido",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "digital",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.independent.co.uk",
+      "feeds": {
+        "main": "https://www.independent.co.uk/rss",
+        "world": "https://www.independent.co.uk/news/world/rss",
+        "business": "https://www.independent.co.uk/news/business/rss",
+        "national": "https://www.independent.co.uk/news/uk/rss"
+      },
+      "why": "Diario solo digital y gratuito: 18,3 M de usuarios en el Reino Unido (agosto de 2026).",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "skynews",
+      "name": "Sky News",
+      "region": "reino-unido",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://news.sky.com",
+      "feeds": {
+        "main": "https://feeds.skynews.com/feeds/rss/home.xml",
+        "world": "https://feeds.skynews.com/feeds/rss/world.xml",
+        "business": "https://feeds.skynews.com/feeds/rss/business.xml",
+        "politics": "https://feeds.skynews.com/feeds/rss/politics.xml"
+      },
+      "why": "Sky llega al 32% de los británicos al mes; segunda fuente audiovisual neutral.",
+      "fetchNotes": "Small feeds (5-10 items); a subscription offer is planned for late 2026.",
+      "defaultOn": false
+    },
+    {
+      "id": "gbnews",
+      "name": "GB News",
+      "region": "reino-unido",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "derecha",
+      "side": "conservador",
+      "paywall": "gratis",
+      "homepage": "https://www.gbnews.com",
+      "feeds": {
+        "main": "https://www.gbnews.com/feeds/news.rss"
+      },
+      "why": "Canal de derechas en auge: llega al 12% de los adultos británicos cada mes (Ofcom 2026).",
+      "fetchNotes": "Single news feed; lower factual quality than broadsheets.",
+      "defaultOn": false
+    },
+    {
+      "id": "lemonde",
+      "name": "Le Monde",
+      "region": "europa",
+      "country": "Francia",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.lemonde.fr/en/",
+      "feeds": {
+        "main": "https://www.lemonde.fr/en/rss/une.xml",
+        "world": "https://www.lemonde.fr/en/international/rss_full.xml",
+        "business": "https://www.lemonde.fr/en/economy/rss_full.xml"
+      },
+      "why": "Diario de referencia de Francia, con más de 600.000 suscriptores digitales.",
+      "fetchNotes": "English edition feeds; French feeds also verified at https://www.lemonde.fr/rss/une.xml.",
+      "defaultOn": true
+    },
+    {
+      "id": "lefigaro",
+      "name": "Le Figaro",
+      "region": "europa",
+      "country": "Francia",
+      "lang": "fr",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.lefigaro.fr",
+      "feeds": {
+        "main": "https://www.lefigaro.fr/rss/figaro_actualites.xml",
+        "world": "https://www.lefigaro.fr/rss/figaro_international.xml",
+        "business": "https://www.lefigaro.fr/rss/figaro_economie.xml",
+        "politics": "https://www.lefigaro.fr/rss/figaro_politique.xml"
+      },
+      "why": "Principal diario conservador de Francia (grupo Dassault), con unos 315.000 suscriptores digitales.",
+      "fetchNotes": "French; economie feed holds items back to 2025-12, filter by date.",
+      "defaultOn": true
+    },
+    {
+      "id": "spiegel",
+      "name": "Der Spiegel",
+      "region": "europa",
+      "country": "Alemania",
+      "lang": "de",
+      "type": "revista",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.spiegel.de",
+      "feeds": {
+        "main": "https://www.spiegel.de/schlagzeilen/index.rss",
+        "world": "https://www.spiegel.de/ausland/index.rss",
+        "business": "https://www.spiegel.de/wirtschaft/index.rss"
+      },
+      "why": "Semanario de mayor tirada de Alemania (715.000) y referente del periodismo de investigación.",
+      "fetchNotes": "German; the English International feed is infrequent and fully paywalled, not used.",
+      "defaultOn": true
+    },
+    {
+      "id": "faz",
+      "name": "Frankfurter Allgemeine Zeitung",
+      "region": "europa",
+      "country": "Alemania",
+      "lang": "de",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.faz.net",
+      "feeds": {
+        "main": "https://www.faz.net/rss/aktuell/",
+        "world": "https://www.faz.net/rss/aktuell/politik/ausland/",
+        "business": "https://www.faz.net/rss/aktuell/wirtschaft/",
+        "politics": "https://www.faz.net/rss/aktuell/politik/"
+      },
+      "why": "Diario conservador de referencia en Alemania, con unos 139.000 suscriptores digitales.",
+      "fetchNotes": "German; send a plain feed-reader User-Agent (browser UA hits a bot check); filter old items; fallback: welt.",
+      "defaultOn": true
+    },
+    {
+      "id": "welt",
+      "name": "Die Welt",
+      "region": "europa",
+      "country": "Alemania",
+      "lang": "de",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.welt.de",
+      "feeds": {
+        "main": "https://www.welt.de/feeds/topnews.rss",
+        "latest": "https://www.welt.de/feeds/latest.rss",
+        "world": "https://www.welt.de/feeds/section/politik/ausland.rss",
+        "business": "https://www.welt.de/feeds/section/wirtschaft.rss"
+      },
+      "why": "Diario conservador de Axel Springer; el más abierto de los alemanes (1 de 8 artículos de pago).",
+      "fetchNotes": "German; fallback for faz.",
+      "defaultOn": false
+    },
+    {
+      "id": "repubblica",
+      "name": "La Repubblica",
+      "region": "europa",
+      "country": "Italia",
+      "lang": "it",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.repubblica.it",
+      "feeds": {
+        "main": "https://www.repubblica.it/rss/homepage/rss2.0.xml",
+        "world": "https://www.repubblica.it/rss/esteri/rss2.0.xml",
+        "business": "https://www.repubblica.it/rss/economia/rss2.0.xml"
+      },
+      "why": "Uno de los dos diarios italianos con 10% de alcance semanal; del grupo griego Antenna desde 2026.",
+      "fetchNotes": "Italian.",
+      "defaultOn": false
+    },
+    {
+      "id": "corriere",
+      "name": "Corriere della Sera",
+      "region": "europa",
+      "country": "Italia",
+      "lang": "it",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.corriere.it",
+      "feeds": {
+        "world": "https://www.corriere.it/dynamic-feed/rss/section/Esteri.xml",
+        "politics": "https://www.corriere.it/dynamic-feed/rss/section/Politica.xml",
+        "business": "https://www.corriere.it/dynamic-feed/rss/section/Economia.xml"
+      },
+      "why": "Diario de calidad más leído de Italia; liberal-conservador según Eurotopics, neutral según MBFC.",
+      "fetchNotes": "Italian; no homepage feed; legacy xml2.corriereobjects.it feeds are frozen, do not use.",
+      "defaultOn": false
+    },
+    {
+      "id": "politicoeu",
+      "name": "Politico Europe",
+      "region": "europa",
+      "country": "Bélgica",
+      "lang": "en",
+      "type": "digital",
+      "leaning": "centro-izquierda",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.politico.eu",
+      "feeds": {
+        "main": "https://www.politico.eu/feed/",
+        "politics": "https://www.politico.eu/section/politics/feed/",
+        "policy": "https://www.politico.eu/section/policy/feed/"
+      },
+      "why": "Principal medio en inglés sobre las instituciones de la UE; marca la agenda de Bruselas.",
+      "fetchNotes": "Main feed only 10 items; the economy section feed is empty.",
+      "defaultOn": true
+    },
+    {
+      "id": "nzz",
+      "name": "Neue Zürcher Zeitung",
+      "region": "europa",
+      "country": "Suiza",
+      "lang": "de",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.nzz.ch",
+      "feeds": {
+        "main": "https://www.nzz.ch/startseite.rss",
+        "latest": "https://www.nzz.ch/recent.rss",
+        "world": "https://www.nzz.ch/international.rss",
+        "business": "https://www.nzz.ch/wirtschaft.rss"
+      },
+      "why": "Diario suizo de referencia, liberal; también crece en ingresos digitales en Alemania.",
+      "fetchNotes": "German; metered but near-hard (7 of 8 sampled articles paywalled); English feed frozen since 2025-08.",
+      "defaultOn": false
+    },
+    {
+      "id": "publicopt",
+      "name": "Público (Portugal)",
+      "region": "europa",
+      "country": "Portugal",
+      "lang": "pt",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.publico.pt",
+      "feeds": {
+        "main": "https://feeds.feedburner.com/PublicoRSS"
+      },
+      "why": "Diario de referencia de la clase política portuguesa.",
+      "fetchNotes": "Portuguese; only 10 items; publico.pt/rss is empty.",
+      "defaultOn": false
+    },
+    {
+      "id": "nrc",
+      "name": "NRC",
+      "region": "europa",
+      "country": "Países Bajos",
+      "lang": "nl",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "muro",
+      "homepage": "https://www.nrc.nl",
+      "feeds": {
+        "main": "https://www.nrc.nl/rss/"
+      },
+      "why": "Diario neerlandés de referencia en política y asuntos exteriores.",
+      "fetchNotes": "Dutch; feed holds items back to 2023, filter by date.",
+      "defaultOn": false
+    },
+    {
+      "id": "nyt",
+      "name": "The New York Times",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.nytimes.com",
+      "feeds": {
+        "main": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+        "world": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "business": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+        "economy": "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml",
+        "politics": "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+        "national": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "opinion": "https://rss.nytimes.com/services/xml/rss/nyt/Opinion.xml",
+        "tech": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"
+      },
+      "why": "Mayor editor de noticias de pago del mundo: 12,21 M de suscriptores digitales.",
+      "fetchNotes": "Dedupe by link/guid (World and Business share items).",
+      "defaultOn": true
+    },
+    {
+      "id": "wapo",
+      "name": "The Washington Post",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.washingtonpost.com",
+      "feeds": {
+        "main": "https://feeds.washingtonpost.com/rss/national",
+        "latest": "https://www.washingtonpost.com/arcio/rss/",
+        "world": "https://feeds.washingtonpost.com/rss/world",
+        "business": "https://feeds.washingtonpost.com/rss/business",
+        "politics": "https://feeds.washingtonpost.com/rss/politics",
+        "opinion": "https://feeds.washingtonpost.com/rss/opinions"
+      },
+      "why": "Gran diario de Washington (~2,5 M de suscriptores); su consejo editorial ya roza el centro-derecha.",
+      "fetchNotes": "Opinion section is now rated barely Lean Right; do not use it as the progressive view.",
+      "defaultOn": false
+    },
+    {
+      "id": "wsj",
+      "name": "The Wall Street Journal",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "diario económico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "muro",
+      "homepage": "https://www.wsj.com",
+      "feeds": {
+        "main": "https://feeds.content.dowjones.io/public/rss/RSSUSnews",
+        "world": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews",
+        "business": "https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness",
+        "markets": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
+        "economy": "https://feeds.content.dowjones.io/public/rss/socialeconomyfeed",
+        "politics": "https://feeds.content.dowjones.io/public/rss/socialpoliticsfeed",
+        "opinion": "https://feeds.content.dowjones.io/public/rss/RSSOpinion",
+        "tech": "https://feeds.content.dowjones.io/public/rss/RSSWSJD"
+      },
+      "why": "Una de las dos únicas fuentes en que confían más que desconfían ambos partidos (Pew); 4,29 M de suscriptores.",
+      "fetchNotes": "Use feeds.content.dowjones.io (feeds.a.dj.com frozen since 2025-01). News desk is centre: take the conservative view from the opinion feed.",
+      "defaultOn": true
+    },
+    {
+      "id": "npr",
+      "name": "NPR",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.npr.org",
+      "feeds": {
+        "main": "https://feeds.npr.org/1001/rss.xml",
+        "world": "https://feeds.npr.org/1004/rss.xml",
+        "business": "https://feeds.npr.org/1006/rss.xml",
+        "politics": "https://feeds.npr.org/1014/rss.xml",
+        "economy": "https://feeds.npr.org/1017/rss.xml",
+        "tech": "https://feeds.npr.org/1019/rss.xml"
+      },
+      "why": "Radio pública gratuita; la usa con regularidad el 32% de los demócratas (Pew 2025).",
+      "fetchNotes": "Only 10 items per feed; poll at least daily.",
+      "defaultOn": true
+    },
+    {
+      "id": "axios",
+      "name": "Axios",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "digital",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.axios.com",
+      "feeds": {
+        "main": "https://api.axios.com/feed/"
+      },
+      "why": "Noticias breves de política y negocios muy seguidas en Washington.",
+      "fetchNotes": "Single all-topics feed (100 items); classify downstream.",
+      "defaultOn": false
+    },
+    {
+      "id": "thehill",
+      "name": "The Hill",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "digital",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://thehill.com",
+      "feeds": {
+        "main": "https://thehill.com/feed/",
+        "world": "https://thehill.com/policy/international/feed/",
+        "business": "https://thehill.com/business/feed/"
+      },
+      "why": "Medio del Congreso que crece contra la tendencia (31,7 M de visitas); centro según AllSides.",
+      "fetchNotes": "Follow redirects.",
+      "defaultOn": false
+    },
+    {
+      "id": "fox",
+      "name": "Fox News",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "derecha",
+      "side": "conservador",
+      "paywall": "gratis",
+      "homepage": "https://www.foxnews.com",
+      "feeds": {
+        "main": "https://moxie.foxnews.com/google-publisher/latest.xml",
+        "world": "https://moxie.foxnews.com/google-publisher/world.xml",
+        "business": "https://moxie.foxbusiness.com/google-publisher/economy.xml",
+        "markets": "https://moxie.foxbusiness.com/google-publisher/markets.xml",
+        "politics": "https://moxie.foxnews.com/google-publisher/politics.xml",
+        "national": "https://moxie.foxnews.com/google-publisher/us.xml"
+      },
+      "why": "Principal voz de la derecha de EE. UU.: el 56% de los republicanos confía en ella (Pew 2025).",
+      "fetchNotes": "Business and markets feeds come from Fox Business.",
+      "defaultOn": true
+    },
+    {
+      "id": "nypost",
+      "name": "New York Post",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "derecha",
+      "side": "conservador",
+      "paywall": "gratis",
+      "homepage": "https://nypost.com",
+      "feeds": {
+        "main": "https://nypost.com/feed/",
+        "world": "https://nypost.com/world-news/feed/",
+        "business": "https://nypost.com/business/feed/",
+        "national": "https://nypost.com/us-news/feed/"
+      },
+      "why": "Tabloide conservador gratuito; alternativa sin muro al WSJ para la visión de derechas.",
+      "fetchNotes": "Main feed includes sport and celebrity items.",
+      "defaultOn": false
+    },
+    {
+      "id": "nr",
+      "name": "National Review",
+      "region": "norteamerica",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "revista",
+      "leaning": "derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.nationalreview.com",
+      "feeds": {
+        "main": "https://www.nationalreview.com/feed/",
+        "national": "https://www.nationalreview.com/news/feed/"
+      },
+      "why": "Revista de referencia del conservadurismo intelectual estadounidense.",
+      "fetchNotes": "Mostly opinion; news desk rated Lean Right, opinion Right.",
+      "defaultOn": false
+    },
+    {
+      "id": "cbc",
+      "name": "CBC News",
+      "region": "norteamerica",
+      "country": "Canadá",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.cbc.ca/news",
+      "feeds": {
+        "main": "https://www.cbc.ca/webfeed/rss/rss-topstories",
+        "world": "https://www.cbc.ca/webfeed/rss/rss-world",
+        "business": "https://www.cbc.ca/webfeed/rss/rss-business",
+        "national": "https://www.cbc.ca/webfeed/rss/rss-canada",
+        "politics": "https://www.cbc.ca/webfeed/rss/rss-politics",
+        "tech": "https://www.cbc.ca/webfeed/rss/rss-technology"
+      },
+      "why": "Radio-televisión pública de Canadá; una de las 7 grandes webs en inglés que crecen en visitas.",
+      "fetchNotes": "Top-stories feed carries one stale item; filter by date.",
+      "defaultOn": false
+    },
+    {
+      "id": "globe",
+      "name": "The Globe and Mail",
+      "region": "norteamerica",
+      "country": "Canadá",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "muro",
+      "homepage": "https://www.theglobeandmail.com",
+      "feeds": {
+        "main": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/canada/",
+        "world": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/world/",
+        "business": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/business/",
+        "politics": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/politics/",
+        "opinion": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/opinion/"
+      },
+      "why": "Diario nacional de referencia de Canadá; 246.000 suscriptores digitales (2023).",
+      "fetchNotes": "AllSides rates it Center, MBFC Right-Center; used as the right pole because the National Post has no feed.",
+      "defaultOn": false
+    },
+    {
+      "id": "infobae",
+      "name": "Infobae",
+      "region": "latam",
+      "country": "Argentina",
+      "lang": "es",
+      "type": "digital",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.infobae.com",
+      "feeds": {
+        "main": "https://www.infobae.com/arc/outboundfeeds/rss/",
+        "latam": "https://www.infobae.com/arc/outboundfeeds/rss/category/america/",
+        "business": "https://www.infobae.com/arc/outboundfeeds/rss/category/economia/",
+        "politics": "https://www.infobae.com/arc/outboundfeeds/rss/category/politica/",
+        "mexico": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
+        "colombia": "https://www.infobae.com/arc/outboundfeeds/rss/category/colombia/"
+      },
+      "why": "Gigante digital gratuito con ediciones en México y Colombia; más de la mitad de los argentinos confía en él.",
+      "fetchNotes": "MBFC rates it Left-Center; treated as centre for pairing.",
+      "defaultOn": true
+    },
+    {
+      "id": "bbcmundo",
+      "name": "BBC News Mundo",
+      "region": "latam",
+      "country": "Reino Unido",
+      "lang": "es",
+      "type": "televisión/radio",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.bbc.com/mundo",
+      "feeds": {
+        "main": "https://feeds.bbci.co.uk/mundo/rss.xml"
+      },
+      "why": "Servicio en español de la BBC, muy volcado en América Latina; texto ya en castellano.",
+      "fetchNotes": "Single general feed; the LatAm topic feed is frozen (2014).",
+      "defaultOn": true
+    },
+    {
+      "id": "lajornada",
+      "name": "La Jornada",
+      "region": "latam",
+      "country": "México",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.jornada.com.mx",
+      "feeds": {
+        "main": "https://www.jornada.com.mx/rss/edicion.xml",
+        "politics": "https://www.jornada.com.mx/rss/politica.xml",
+        "business": "https://www.jornada.com.mx/rss/economia.xml",
+        "world": "https://www.jornada.com.mx/rss/mundo.xml"
+      },
+      "why": "Principal diario de izquierda de México; el medio con más turnos en la mañanera (oct. 2025).",
+      "fetchNotes": "Print-edition batch published once a day (early morning UTC); all items share one timestamp.",
+      "defaultOn": false
+    },
+    {
+      "id": "elfinanciero",
+      "name": "El Financiero",
+      "region": "latam",
+      "country": "México",
+      "lang": "es",
+      "type": "diario económico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "gratis",
+      "homepage": "https://www.elfinanciero.com.mx",
+      "feeds": {
+        "main": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+        "business": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/category/economia/?outputType=xml",
+        "world": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/category/mundo/?outputType=xml"
+      },
+      "why": "Principal diario económico gratuito de México.",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "pagina12",
+      "name": "Página/12",
+      "region": "latam",
+      "country": "Argentina",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.pagina12.com.ar",
+      "feeds": {
+        "main": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/portada",
+        "politics": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/el-pais/notas",
+        "business": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/economia/notas",
+        "world": "https://www.pagina12.com.ar/arc/outboundfeeds/rss/secciones/el-mundo/notas"
+      },
+      "why": "Diario de izquierda afín al kirchnerismo; contrapunto clásico de La Nación y Clarín.",
+      "fetchNotes": "Main feed only 6 items; rely on section feeds; old /rss/ URLs return 404.",
+      "defaultOn": false
+    },
+    {
+      "id": "lanacion",
+      "name": "La Nación",
+      "region": "latam",
+      "country": "Argentina",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.lanacion.com.ar",
+      "feeds": {
+        "main": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/?outputType=xml",
+        "politics": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/politica/?outputType=xml",
+        "business": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/economia/?outputType=xml",
+        "world": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/category/el-mundo/?outputType=xml"
+      },
+      "why": "Diario argentino de referencia, con 386.000 suscriptores digitales (DNR 2026).",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "folha",
+      "name": "Folha de S.Paulo",
+      "region": "latam",
+      "country": "Brasil",
+      "lang": "pt",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://www.folha.uol.com.br",
+      "feeds": {
+        "main": "https://feeds.folha.uol.com.br/emcimadahora/rss091.xml",
+        "politics": "https://feeds.folha.uol.com.br/poder/rss091.xml",
+        "business": "https://feeds.folha.uol.com.br/mercado/rss091.xml",
+        "world": "https://feeds.folha.uol.com.br/mundo/rss091.xml"
+      },
+      "why": "Uno de los dos grandes diarios de calidad de Brasil; su etiqueta ideológica es discutida.",
+      "fetchNotes": "Portuguese; links are wrapped in redir.folha.com.br.",
+      "defaultOn": false
+    },
+    {
+      "id": "estadao",
+      "name": "Estadão",
+      "region": "latam",
+      "country": "Brasil",
+      "lang": "pt",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.estadao.com.br",
+      "feeds": {
+        "main": "https://www.estadao.com.br/arc/outboundfeeds/rss/?outputType=xml",
+        "politics": "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/politica/",
+        "business": "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/economia/",
+        "world": "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/internacional/"
+      },
+      "why": "Gran diario liberal y promercado de São Paulo, crítico con los gobiernos del PT.",
+      "fetchNotes": "Portuguese.",
+      "defaultOn": false
+    },
+    {
+      "id": "eltiempo",
+      "name": "El Tiempo",
+      "region": "latam",
+      "country": "Colombia",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://www.eltiempo.com",
+      "feeds": {
+        "main": "https://www.eltiempo.com/rss/colombia.xml",
+        "politics": "https://www.eltiempo.com/rss/politica.xml",
+        "business": "https://www.eltiempo.com/rss/economia.xml",
+        "world": "https://www.eltiempo.com/rss/mundo.xml",
+        "latam": "https://www.eltiempo.com/rss/mundo_latinoamerica.xml"
+      },
+      "why": "Gran marca tradicional de Colombia junto a Caracol y RCN (DNR 2026).",
+      "fetchNotes": "About 10 items per feed; leaning not rated by any source.",
+      "defaultOn": false
+    },
+    {
+      "id": "latercera",
+      "name": "La Tercera",
+      "region": "latam",
+      "country": "Chile",
+      "lang": "es",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "conservador",
+      "paywall": "parcial",
+      "homepage": "https://www.latercera.com",
+      "feeds": {
+        "main": "https://www.latercera.com/arc/outboundfeeds/rss/?outputType=xml",
+        "national": "https://www.latercera.com/arc/outboundfeeds/rss/category/nacional/?outputType=xml",
+        "politics": "https://www.latercera.com/arc/outboundfeeds/rss/category/politica/?outputType=xml",
+        "world": "https://www.latercera.com/arc/outboundfeeds/rss/category/mundo/?outputType=xml",
+        "business": "https://www.latercera.com/arc/outboundfeeds/rss/category/pulso/?outputType=xml"
+      },
+      "why": "Uno de los dos grandes diarios de Chile y el único con RSS (El Mercurio no tiene).",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "cnnespanol",
+      "name": "CNN en Español",
+      "region": "latam",
+      "country": "Estados Unidos",
+      "lang": "es",
+      "type": "televisión/radio",
+      "leaning": "centro-izquierda",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://cnnespanol.cnn.com",
+      "feeds": {
+        "main": "https://news.google.com/rss/search?q=when:24h+site:cnnespanol.cnn.com&hl=es-419&gl=US&ceid=US:es-419"
+      },
+      "why": "Cadena panregional en español; en México confía en ella más del 60% (DNR 2026).",
+      "fetchNotes": "UNOFFICIAL Google News site: search feed (no official CNN RSS); links are news.google.com redirects; strip the source suffix from titles.",
+      "defaultOn": false
+    },
+    {
+      "id": "japantimes",
+      "name": "The Japan Times",
+      "region": "asia",
+      "country": "Japón",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://www.japantimes.co.jp",
+      "feeds": {
+        "main": "https://www.japantimes.co.jp/feed/"
+      },
+      "why": "Diario japonés en inglés; único feed generalista de Japón abierto y operativo.",
+      "fetchNotes": "Section feeds return 403, main feed only; paywall model untested.",
+      "defaultOn": false
+    },
+    {
+      "id": "nikkeiasia",
+      "name": "Nikkei Asia",
+      "region": "asia",
+      "country": "Japón",
+      "lang": "en",
+      "type": "diario económico",
+      "leaning": "centro-derecha",
+      "side": "neutral",
+      "paywall": "muro",
+      "homepage": "https://asia.nikkei.com",
+      "feeds": {
+        "main": "https://asia.nikkei.com/rss/feed/nar"
+      },
+      "why": "Referencia económica asiática; el grupo Nikkei supera el millón de suscriptores digitales.",
+      "fetchNotes": "RSS 1.0 without dates or descriptions (titles and links only); dedupe by link.",
+      "defaultOn": false
+    },
+    {
+      "id": "scmp",
+      "name": "South China Morning Post",
+      "region": "asia",
+      "country": "Hong Kong (China)",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://www.scmp.com",
+      "feeds": {
+        "main": "https://www.scmp.com/rss/91/feed/",
+        "china": "https://www.scmp.com/rss/4/feed/",
+        "national": "https://www.scmp.com/rss/2/feed/",
+        "asia": "https://www.scmp.com/rss/3/feed/",
+        "world": "https://www.scmp.com/rss/5/feed/",
+        "business": "https://www.scmp.com/rss/92/feed/",
+        "tech": "https://www.scmp.com/rss/36/feed/"
+      },
+      "why": "Principal fuente no estatal en inglés sobre China; diario de Hong Kong propiedad de Alibaba.",
+      "fetchNotes": "Use the trailing-slash URLs (others redirect).",
+      "defaultOn": true
+    },
+    {
+      "id": "cgtn",
+      "name": "CGTN",
+      "region": "asia",
+      "country": "China",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "estatal",
+      "side": "estatal",
+      "paywall": "gratis",
+      "homepage": "https://www.cgtn.com",
+      "feeds": {
+        "china": "https://www.cgtn.com/subscribe/rss/section/china.xml",
+        "world": "https://www.cgtn.com/subscribe/rss/section/world.xml",
+        "business": "https://www.cgtn.com/subscribe/rss/section/business.xml",
+        "tech": "https://www.cgtn.com/subscribe/rss/section/tech-sci.xml"
+      },
+      "why": "Televisión estatal china bajo el Departamento de Propaganda del PCCh: la línea oficial de Pekín.",
+      "fetchNotes": "Slow feed (newest items 20-48 h old): use a 72 h window. No general feed. Always label as state media.",
+      "defaultOn": true
+    },
+    {
+      "id": "thehindu",
+      "name": "The Hindu",
+      "region": "asia",
+      "country": "India",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.thehindu.com",
+      "feeds": {
+        "main": "https://www.thehindu.com/feeder/default.rss",
+        "national": "https://www.thehindu.com/news/national/feeder/default.rss",
+        "world": "https://www.thehindu.com/news/international/feeder/default.rss",
+        "business": "https://www.thehindu.com/business/feeder/default.rss",
+        "opinion": "https://www.thehindu.com/opinion/feeder/default.rss",
+        "tech": "https://www.thehindu.com/sci-tech/technology/feeder/default.rss"
+      },
+      "why": "Diario indio de calidad, crítico con el Gobierno; polo progresista de la India.",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "indianexpress",
+      "name": "The Indian Express",
+      "region": "asia",
+      "country": "India",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://indianexpress.com",
+      "feeds": {
+        "main": "https://indianexpress.com/feed/",
+        "national": "https://indianexpress.com/section/india/feed/",
+        "world": "https://indianexpress.com/section/world/feed/",
+        "business": "https://indianexpress.com/section/business/feed/",
+        "opinion": "https://indianexpress.com/section/opinion/feed/"
+      },
+      "why": "Diario nacional indio de calidad, gratuito y con fama de periodismo de investigación.",
+      "fetchNotes": "403 from GitHub Actions IPs (blocks cloud servers) as of 2026-11-07",
+      "defaultOn": false
+    },
+    {
+      "id": "timesofindia",
+      "name": "The Times of India",
+      "region": "asia",
+      "country": "India",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://timesofindia.indiatimes.com",
+      "feeds": {
+        "main": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+        "national": "https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms",
+        "world": "https://timesofindia.indiatimes.com/rssfeeds/296589292.cms",
+        "business": "https://timesofindia.indiatimes.com/rssfeeds/1898055.cms"
+      },
+      "why": "Diario de masas que destaca online (DNR 2025); su grupo es dueño del canal Times Now.",
+      "fetchNotes": "High volume, lower signal.",
+      "defaultOn": true
+    },
+    {
+      "id": "straitstimes",
+      "name": "The Straits Times",
+      "region": "asia",
+      "country": "Singapur",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://www.straitstimes.com",
+      "feeds": {
+        "national": "https://www.straitstimes.com/news/singapore/rss.xml",
+        "asia": "https://www.straitstimes.com/news/asia/rss.xml",
+        "world": "https://www.straitstimes.com/news/world/rss.xml",
+        "business": "https://www.straitstimes.com/news/business/rss.xml"
+      },
+      "why": "Diario de referencia de Singapur (75% de confianza), de una fundación con apoyo estatal.",
+      "fetchNotes": "All channels are titled 'World News' but the items match each section.",
+      "defaultOn": false
+    },
+    {
+      "id": "cna",
+      "name": "CNA (Channel NewsAsia)",
+      "region": "asia",
+      "country": "Singapur",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.channelnewsasia.com",
+      "feeds": {
+        "main": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml",
+        "asia": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6511",
+        "world": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6311",
+        "business": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=6936",
+        "national": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416"
+      },
+      "why": "Mayor alcance online de Singapur (47%) y mejor feed gratuito del Sudeste Asiático.",
+      "fetchNotes": "All channels are titled 'Latest News'; the category parameter does filter. Owned by state-owned Mediacorp.",
+      "defaultOn": true
+    },
+    {
+      "id": "yonhap",
+      "name": "Yonhap",
+      "region": "asia",
+      "country": "Corea del Sur",
+      "lang": "en",
+      "type": "agencia",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://en.yna.co.kr",
+      "feeds": {
+        "main": "https://en.yna.co.kr/RSS/news.xml",
+        "northkorea": "https://en.yna.co.kr/RSS/nk.xml"
+      },
+      "why": "Agencia nacional surcoreana; feed propio y muy activo sobre Corea del Norte.",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "taipeitimes",
+      "name": "Taipei Times",
+      "region": "asia",
+      "country": "Taiwán",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.taipeitimes.com",
+      "feeds": {
+        "main": "https://www.taipeitimes.com/xml/index.rss"
+      },
+      "why": "Diario taiwanés en inglés de línea pan-verde (proindependencia).",
+      "fetchNotes": "RSS 1.0 (RDF); single feed.",
+      "defaultOn": false
+    },
+    {
+      "id": "abcau",
+      "name": "ABC News (Australia)",
+      "region": "asia",
+      "country": "Australia",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.abc.net.au/news",
+      "feeds": {
+        "main": "https://www.abc.net.au/news/feed/45910/rss.xml",
+        "latest": "https://www.abc.net.au/news/feed/51120/rss.xml",
+        "business": "https://www.abc.net.au/news/feed/51892/rss.xml"
+      },
+      "why": "Radio-televisión pública australiana; ABC y SBS son las marcas más fiables del país.",
+      "fetchNotes": "No world feed exists.",
+      "defaultOn": false
+    },
+    {
+      "id": "aljazeera",
+      "name": "Al Jazeera English",
+      "region": "oriente-africa",
+      "country": "Catar",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro-izquierda",
+      "side": "estatal",
+      "paywall": "gratis",
+      "homepage": "https://www.aljazeera.com",
+      "feeds": {
+        "main": "https://www.aljazeera.com/xml/rss/all.xml"
+      },
+      "why": "Mayor cadena árabe en inglés, financiada por Catar; dominante en la cobertura de Gaza e Irán.",
+      "fetchNotes": "Single all-news feed; label as Qatari state-funded.",
+      "defaultOn": true
+    },
+    {
+      "id": "timesofisrael",
+      "name": "The Times of Israel",
+      "region": "oriente-africa",
+      "country": "Israel",
+      "lang": "en",
+      "type": "digital",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.timesofisrael.com",
+      "feeds": {
+        "main": "https://www.timesofisrael.com/feed/"
+      },
+      "why": "Web israelí en inglés de referencia, rápida y de línea mayoritaria.",
+      "fetchNotes": "Only ~14 items; poll several times before the briefing.; 403 from GitHub Actions IPs (blocks cloud servers) as of 2026-11-07",
+      "defaultOn": false
+    },
+    {
+      "id": "haaretz",
+      "name": "Haaretz",
+      "region": "oriente-africa",
+      "country": "Israel",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "parcial",
+      "homepage": "https://www.haaretz.com",
+      "feeds": {
+        "main": "https://www.haaretz.com/srv/haaretz-latest-headlines"
+      },
+      "why": "Diario de referencia de la izquierda liberal israelí, crítico con el Gobierno de Netanyahu.",
+      "fetchNotes": "Old URL /cmlink/1.628752 returns HTML; use this one.",
+      "defaultOn": true
+    },
+    {
+      "id": "israelhayom",
+      "name": "Israel Hayom",
+      "region": "oriente-africa",
+      "country": "Israel",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "derecha",
+      "side": "conservador",
+      "paywall": "gratis",
+      "homepage": "https://www.israelhayom.com",
+      "feeds": {
+        "main": "https://www.israelhayom.com/feed/"
+      },
+      "why": "Diario gratuito de mayor tirada de Israel; voz de la derecha pro-Netanyahu.",
+      "fetchNotes": "Only 10 items.",
+      "defaultOn": true
+    },
+    {
+      "id": "thenational",
+      "name": "The National",
+      "region": "oriente-africa",
+      "country": "Emiratos Árabes Unidos",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "centro-derecha",
+      "side": "estatal",
+      "paywall": "gratis",
+      "homepage": "https://www.thenationalnews.com",
+      "feeds": {
+        "main": "https://www.thenationalnews.com/arc/outboundfeeds/rss/?outputType=xml",
+        "middleeast": "https://www.thenationalnews.com/arc/outboundfeeds/rss/category/news/mena/?outputType=xml",
+        "business": "https://www.thenationalnews.com/arc/outboundfeeds/rss/category/business/?outputType=xml"
+      },
+      "why": "Principal diario del Golfo en inglés, vinculado al Estado de Abu Dabi; fuerte en economía.",
+      "fetchNotes": "Business feed mixes old items; world category feeds are empty or frozen.",
+      "defaultOn": false
+    },
+    {
+      "id": "aawsat",
+      "name": "Asharq Al-Awsat",
+      "region": "oriente-africa",
+      "country": "Arabia Saudí",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "estatal",
+      "side": "estatal",
+      "paywall": "gratis",
+      "homepage": "https://english.aawsat.com",
+      "feeds": {
+        "main": "https://english.aawsat.com/feed"
+      },
+      "why": "Diario panárabe del grupo saudí SRMG; feed fiable para la visión de Riad (Arab News bloquea bots).",
+      "fetchNotes": "Channel title reads 'Mailchimptemplate'; 300 items, filter by date.",
+      "defaultOn": false
+    },
+    {
+      "id": "iranintl",
+      "name": "Iran International",
+      "region": "oriente-africa",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "televisión/radio",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.iranintl.com/en",
+      "feeds": {
+        "main": "https://www.iranintl.com/en/feed"
+      },
+      "why": "Canal de la diáspora iraní en Londres, opuesto a la República Islámica.",
+      "fetchNotes": "Opposition outlet; funding reportedly Saudi-linked (disputed).",
+      "defaultOn": false
+    },
+    {
+      "id": "tehrantimes",
+      "name": "Tehran Times",
+      "region": "oriente-africa",
+      "country": "Irán",
+      "lang": "en",
+      "type": "periódico",
+      "leaning": "estatal",
+      "side": "estatal",
+      "paywall": "gratis",
+      "homepage": "https://www.tehrantimes.com",
+      "feeds": {
+        "main": "https://www.tehrantimes.com/rss"
+      },
+      "why": "Diario oficialista iraní; sustituto operativo de Press TV (inaccesible) para la línea de Teherán.",
+      "fetchNotes": "Drop photo items whose titles are just numbers.",
+      "defaultOn": false
+    },
+    {
+      "id": "allafrica",
+      "name": "AllAfrica",
+      "region": "oriente-africa",
+      "country": "África (panafricano)",
+      "lang": "en",
+      "type": "digital",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://allafrica.com",
+      "feeds": {
+        "main": "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
+        "business": "https://allafrica.com/tools/headlines/rdf/business/headlines.rdf"
+      },
+      "why": "Agrega unos 100 medios africanos de más de 50 países en un solo feed.",
+      "fetchNotes": "RSS 1.0 (RDF); leaning varies by syndicated partner.",
+      "defaultOn": true
+    },
+    {
+      "id": "dailymaverick",
+      "name": "Daily Maverick",
+      "region": "oriente-africa",
+      "country": "Sudáfrica",
+      "lang": "en",
+      "type": "digital",
+      "leaning": "centro-izquierda",
+      "side": "progresista",
+      "paywall": "gratis",
+      "homepage": "https://www.dailymaverick.co.za",
+      "feeds": {
+        "main": "https://www.dailymaverick.co.za/dmrss/"
+      },
+      "why": "Principal medio de investigación de Sudáfrica (captura del Estado); el mejor feed del país.",
+      "fetchNotes": "",
+      "defaultOn": false
+    },
+    {
+      "id": "reuters",
+      "name": "Reuters",
+      "region": "global",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "agencia",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://www.reuters.com",
+      "feeds": {
+        "main": "https://news.google.com/rss/search?q=when:24h+site:reuters.com&ceid=US:en&hl=en-US&gl=US",
+        "world": "https://news.google.com/rss/search?q=when:24h+site:reuters.com/world&ceid=US:en&hl=en-US&gl=US",
+        "business": "https://news.google.com/rss/search?q=when:24h+site:reuters.com/business&ceid=US:en&hl=en-US&gl=US"
+      },
+      "why": "La agencia más citada en internacional y economía; sin RSS público desde 2020.",
+      "fetchNotes": "UNOFFICIAL Google News site: search feeds (Reuters ended public RSS in 2020); links are news.google.com redirects; strip ' - Reuters' from titles.",
+      "defaultOn": false
+    },
+    {
+      "id": "ap",
+      "name": "Associated Press",
+      "region": "global",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "agencia",
+      "leaning": "centro-izquierda",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://apnews.com",
+      "feeds": {
+        "world": "https://flipboard.com/@associatedpress/international-news-miluvhmaz.rss",
+        "business": "https://flipboard.com/@associatedpress/business-and-finance-pbj3bpclz.rss"
+      },
+      "why": "Mayor agencia de EE. UU.: la base factual de la última hora mundial.",
+      "fetchNotes": "Via AP's own Flipboard boards (apnews.com RSS returns 403); the Top Stories board lags days and is not used.",
+      "defaultOn": true
+    },
+    {
+      "id": "afp",
+      "name": "AFP",
+      "region": "global",
+      "country": "Francia",
+      "lang": "en",
+      "type": "agencia",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.afp.com",
+      "feeds": {
+        "main": "https://news.google.com/rss/search?q=when:24h+site:afp.com&hl=en-US&gl=US&ceid=US:en"
+      },
+      "why": "Gran agencia francesa; sin feed público (France 24 publica muchos de sus despachos).",
+      "fetchNotes": "UNOFFICIAL Google News site: search feed (afp.com feeds return 403); titles end with ' - AFP.com'; may include stray old items.",
+      "defaultOn": false
+    },
+    {
+      "id": "efe",
+      "name": "Agencia EFE",
+      "region": "global",
+      "country": "España",
+      "lang": "es",
+      "type": "agencia",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://efe.com",
+      "feeds": {
+        "main": "https://news.google.com/rss/search?q=when:24h+site:efe.com&hl=es-419&gl=US&ceid=US:es-419"
+      },
+      "why": "Principal agencia en español del mundo; texto nativo en castellano.",
+      "fetchNotes": "UNOFFICIAL Google News site: search feed; official efe.com/feed/ returned HTTP 500 on 2026-11-07, re-test and switch if it recovers.",
+      "defaultOn": false
+    },
+    {
+      "id": "bloomberg",
+      "name": "Bloomberg",
+      "region": "global",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "agencia",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "muro",
+      "homepage": "https://www.bloomberg.com",
+      "feeds": {
+        "markets": "https://feeds.bloomberg.com/markets/news.rss",
+        "economy": "https://feeds.bloomberg.com/economics/news.rss",
+        "politics": "https://feeds.bloomberg.com/politics/news.rss",
+        "tech": "https://feeds.bloomberg.com/technology/news.rss",
+        "business": "https://feeds.bloomberg.com/business/news.rss",
+        "opinion": "https://feeds.bloomberg.com/bview/news.rss"
+      },
+      "why": "Agencia financiera que mueve mercados; los titulares de su RSS son gratis.",
+      "fetchNotes": "No world feed (404); follow redirects to bloomberg.com/feeds; business feed includes lifestyle pieces.",
+      "defaultOn": true
+    },
+    {
+      "id": "dw",
+      "name": "DW Español",
+      "region": "global",
+      "country": "Alemania",
+      "lang": "es",
+      "type": "televisión/radio",
+      "leaning": "centro-izquierda",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.dw.com/es/",
+      "feeds": {
+        "main": "https://rss.dw.com/rdf/rss-sp-all",
+        "top": "https://rss.dw.com/xml/rss-sp-top",
+        "business": "https://rss.dw.com/rdf/rss-sp-eco"
+      },
+      "why": "Servicio público internacional alemán con redacción en español; gratuito.",
+      "fetchNotes": "rdf/ URLs are RSS 1.0; English feeds also verified (https://rss.dw.com/rdf/rss-en-all, rss-en-eu, rss-en-bus).",
+      "defaultOn": false
+    },
+    {
+      "id": "france24",
+      "name": "France 24 Español",
+      "region": "global",
+      "country": "Francia",
+      "lang": "es",
+      "type": "televisión/radio",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "gratis",
+      "homepage": "https://www.france24.com/es/",
+      "feeds": {
+        "main": "https://www.france24.com/es/rss",
+        "europe": "https://www.france24.com/es/europa/rss",
+        "latam": "https://www.france24.com/es/am%C3%A9rica-latina/rss",
+        "business": "https://www.france24.com/es/econom%C3%ADa/rss",
+        "middleeast": "https://www.france24.com/es/medio-oriente/rss"
+      },
+      "why": "Canal público francés en español con feed propio de América Latina; recoge despachos de AFP.",
+      "fetchNotes": "Keep the percent-encoded URLs; English feeds also verified (https://www.france24.com/en/rss).",
+      "defaultOn": true
+    },
+    {
+      "id": "economist",
+      "name": "The Economist",
+      "region": "global",
+      "country": "Reino Unido",
+      "lang": "en",
+      "type": "revista",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "muro",
+      "homepage": "https://www.economist.com",
+      "feeds": {
+        "main": "https://www.economist.com/latest/rss.xml",
+        "world": "https://www.economist.com/international/rss.xml",
+        "economy": "https://www.economist.com/finance-and-economics/rss.xml",
+        "business": "https://www.economist.com/business/rss.xml",
+        "middleeast": "https://www.economist.com/middle-east-and-africa/rss.xml",
+        "uk": "https://www.economist.com/britain/rss.xml",
+        "weekly": "https://www.economist.com/the-world-this-week/rss.xml"
+      },
+      "why": "Semanario que marca la agenda de las élites; muro de pago, pero titulares gratis.",
+      "fetchNotes": "Slow section feeds (roughly weekly); hard paywall, RSS gives headline and standfirst.",
+      "defaultOn": false
+    },
+    {
+      "id": "foreignpolicy",
+      "name": "Foreign Policy",
+      "region": "global",
+      "country": "Estados Unidos",
+      "lang": "en",
+      "type": "revista",
+      "leaning": "centro",
+      "side": "neutral",
+      "paywall": "parcial",
+      "homepage": "https://foreignpolicy.com",
+      "feeds": {
+        "main": "https://foreignpolicy.com/feed/"
+      },
+      "why": "Revista de geopolítica de referencia en la comunidad política de Washington.",
+      "fetchNotes": "",
+      "defaultOn": false
+    }
+  ],
+  "videoChannels": [
+    {
+      "id": "rtve",
+      "name": "RTVE Noticias",
+      "channelId": "UC7QZIf0dta-XPXsp9Hv4dTw",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "elpais",
+      "name": "El País",
+      "channelId": "UCnsvJeZO4RigQ898WdDNoBw",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "elmundo",
+      "name": "El Mundo",
+      "channelId": "UCGXbLrVe8vnkiFv7q2vYv3w",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "abc",
+      "name": "ABC",
+      "channelId": "UChFgb_m6aDftnqrxTYFO5Xw",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "antena3",
+      "name": "Antena 3 Noticias",
+      "channelId": "UC_Oni82GyYcabEr3rd-eJkg",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "bbcmundo",
+      "name": "BBC News Mundo",
+      "channelId": "UCUBIrDsIVzRpKsClMlSlTpQ",
+      "lang": "es",
+      "country": "Global"
+    },
+    {
+      "id": "dwes",
+      "name": "DW Español",
+      "channelId": "UCT4Jg8h03dD0iN3Pb5L0PMA",
+      "lang": "es",
+      "country": "Alemania"
+    },
+    {
+      "id": "france24es",
+      "name": "France 24 Español",
+      "channelId": "UCUdOoVWuWmgo1wByzcsyKDQ",
+      "lang": "es",
+      "country": "Francia"
+    },
+    {
+      "id": "euronewses",
+      "name": "Euronews Español",
+      "channelId": "UCyoGb3SMlTlB8CLGVH4c8Rw",
+      "lang": "es",
+      "country": "Europa"
+    },
+    {
+      "id": "cnnee",
+      "name": "CNN en Español",
+      "channelId": "UC_lEiu6917IJz03TnntWUaQ",
+      "lang": "es",
+      "country": "EE. UU."
+    },
+    {
+      "id": "infobae",
+      "name": "Infobae",
+      "channelId": "UCvsU0EGXN7Su7MfNqcTGNHg",
+      "lang": "es",
+      "country": "Argentina"
+    },
+    {
+      "id": "bbcnews",
+      "name": "BBC News",
+      "channelId": "UC16niRr50-MSBwiO3YDb3RA",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "skynews",
+      "name": "Sky News",
+      "channelId": "UCoMdktPbSTixAyNGwb-UYkQ",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian News",
+      "channelId": "UCIRYBXDze5krPDzAEOxFGVA",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "channel4",
+      "name": "Channel 4 News",
+      "channelId": "UCTrQ7HXWRRxr7OsOtodr2_w",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "ft",
+      "name": "Financial Times",
+      "channelId": "UCoUxsWakJucWg46KW5RsvPw",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "economist",
+      "name": "The Economist",
+      "channelId": "UC0p5jTq6Xx_DosDFxVXnWaQ",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "dwnews",
+      "name": "DW News",
+      "channelId": "UCknLrEdhRCp1aegoMqRaCZg",
+      "lang": "en",
+      "country": "Alemania"
+    },
+    {
+      "id": "france24en",
+      "name": "France 24 English",
+      "channelId": "UCQfwfsi5VrQ8yKZ-UWmAEFg",
+      "lang": "en",
+      "country": "Francia"
+    },
+    {
+      "id": "euronews",
+      "name": "Euronews",
+      "channelId": "UCSrZ3UV4jOidv8ppoVuvW9Q",
+      "lang": "en",
+      "country": "Europa"
+    },
+    {
+      "id": "reuters",
+      "name": "Reuters",
+      "channelId": "UChqUTb7kYRX8-EiaN3XFrSQ",
+      "lang": "en",
+      "country": "Global"
+    },
+    {
+      "id": "ap",
+      "name": "Associated Press",
+      "channelId": "UC52X5wxOL_s5yw0dQk7NtgA",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "nyt",
+      "name": "The New York Times",
+      "channelId": "UCqnbDFdCpuN8CMEg0VuEBqA",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "wsj",
+      "name": "The Wall Street Journal",
+      "channelId": "UCK7tptUDHh-RYDsdxO1-5QQ",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "fox",
+      "name": "Fox News",
+      "channelId": "UCXIJgqnII2ZOINSWNOGFThA",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "bloombergtv",
+      "name": "Bloomberg Television",
+      "channelId": "UCIALMKvObZNtJ6AmdCLP7Lg",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "cnbc",
+      "name": "CNBC Television",
+      "channelId": "UCrp_UI8XtuYfpiqluWLD7Lw",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "aljazeera",
+      "name": "Al Jazeera English",
+      "channelId": "UCNye-wNBqNL5ZzHSJj3l8Bg",
+      "lang": "en",
+      "country": "Catar"
+    },
+    {
+      "id": "cgtn",
+      "name": "CGTN",
+      "channelId": "UCgrNz-aDmcr2uuto8_DL2jg",
+      "lang": "en",
+      "country": "China"
+    },
+    {
+      "id": "nhk",
+      "name": "NHK World-Japan",
+      "channelId": "UCSPEjw8F2nQDtmUKPFNF7_A",
+      "lang": "en",
+      "country": "Japón"
+    },
+    {
+      "id": "wion",
+      "name": "WION",
+      "channelId": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "lang": "en",
+      "country": "India"
+    }
+  ]
+}

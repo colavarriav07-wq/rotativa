@@ -101,8 +101,21 @@ def strip_google_suffix(title, url):
     return title
 
 
+def bigger(url):
+    """Ask for a larger version of feed thumbnails whose URL encodes the size."""
+    url = re.sub(r"(ichef\.bbci\.co\.uk/(?:ace/)?(?:standard|ws)/)\d+/", r"\g<1>976/", url)
+    if "i.guim.co.uk" in url:
+        url = re.sub(r"([?&]width=)\d+", r"\g<1>1000", url)
+    return url
+
+
 def entry_image(entry):
     """Best photo URL for a feed entry, or None."""
+    url = _entry_image(entry)
+    return bigger(url) if url else None
+
+
+def _entry_image(entry):
     candidates = []
     for m in entry.get("media_content") or []:
         url = m.get("url")

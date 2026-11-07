@@ -139,7 +139,21 @@ ArtifactData `set` with url=PAGE_URL, that collection, doc_id and file_path. Lea
 `if_version`, because these are new documents. If a document already exists (for example
 on a re-run of a TEST RUN), `get` it and retry the `set` with its `version` as `if_version`.
 
-## 7. Finish
+## 7. Publish on the public website
+
+The public website (GitHub Pages, served from `docs/`) gets the same edition:
+
+```
+python3 briefing/publish_site.py --archive /tmp/out/archive.json
+git config user.name "Rotativa" && git config user.email "rotativa@users.noreply.github.com"
+git add docs/editions && git commit -qm "Edición <ID>"
+git pull -q --rebase origin main && git push -q origin HEAD:main
+```
+
+If the push fails, retry once after `git pull --rebase origin main`. If it still fails,
+report it in the summary: the email and the private page are already done.
+
+## 8. Finish
 
 Print a short summary covering:
 - the edition
@@ -147,5 +161,5 @@ Print a short summary covering:
 - the number of videos
 - which sources had no headlines
 - whether the email was sent
-- whether the web edition was published
+- whether the web edition was published on the private page and on the public website
 - any problems

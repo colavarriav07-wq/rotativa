@@ -49,7 +49,12 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGE_URL_FILE = os.path.join(ROOT, "briefing", "page_url.txt")
+PAGE_URL_FILE = os.path.join(ROOT, "briefing", "page_url.txt")   # private Claude page (newspaper picker)
+SITE_URL_FILE = os.path.join(ROOT, "briefing", "site_url.txt")   # public website (where the email links)
+
+
+def read_url(path):
+    return open(path, encoding="utf-8").read().strip() if os.path.exists(path) else ""
 TOPICS = {"Mundo": "#e9b44c", "Economía": "#4fc08d", "Tecnología": "#a98bf5", "España y Reino Unido": "#f2899b"}
 DAYS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
 MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
@@ -229,7 +234,8 @@ def render_email(arc, page_url):
     b = arc["briefing"]
     stories = b["stories"]
     weekly = b["edition"] == "semanal"
-    web = f"{page_url}#d-{arc['id']}" if page_url else ""
+    site = read_url(SITE_URL_FILE) or page_url
+    web = f"{site}#d-{arc['id']}" if site else ""
     o = []
     a = o.append
     a(f'<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
@@ -316,7 +322,8 @@ def render_email(arc, page_url):
     links = " · ".join(f'<a href="{esc(o["homepage"])}">{esc(o["name"])}</a>' if o.get("homepage") else esc(o["name"]) for o in outlets)
     a(f'<div class="ft f"><b>Fuentes de hoy:</b> {links}<br><br>Resúmenes elaborados con IA a partir de estas fuentes; '
       f'abre el enlace original antes de citar una noticia.'
-      + (f' <a href="{esc(page_url)}#periodicos">Cambiar mis periódicos</a> · <a href="{esc(page_url)}#archivo">Archivo</a>' if page_url else "")
+      + (f' <a href="{esc(page_url)}#periodicos">Cambiar mis periódicos</a>' if page_url else "")
+      + (f' · <a href="{esc(site)}#archivo">Archivo</a>' if site else "")
       + "</div></div></body></html>")
     return "".join(o)
 
@@ -325,8 +332,9 @@ def render_text(arc, page_url):
     b = arc["briefing"]
     lines = [f"ROTATIVA — {long_date(b['date'])}", "", b["headline"], ""]
     lines += [f"• {e}" for e in b.get("essentials", [])]
-    if page_url:
-        lines += ["", f"Edición completa: {page_url}#d-{arc['id']}"]
+    site = read_url(SITE_URL_FILE) or page_url
+    if site:
+        lines += ["", f"Edición completa: {site}#d-{arc['id']}"]
     for st in b["stories"][:7]:
         lines += ["", f"[{st['topic']}] {st['title']}", st.get("short") or st["summary"]]
         lines += [f"  {s.get('name')}: {s.get('url')}" for s in st.get("sources", [])[:3]]
