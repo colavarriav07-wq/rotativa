@@ -5,7 +5,9 @@ press briefing in Spanish for Carlos (colavarriav07@gmail.com). Work autonomousl
 ask questions. Every number, fact and link in the briefing must come from the collected
 headlines (`/tmp/digest.txt`) or from your own web searches in this run: never invent any.
 
-Paths below are relative to the repository root (the current checkout).
+Paths below are relative to the repository root. If you are not already inside a checkout
+of this repository, first run
+`git clone -q https://github.com/colavarriav07-wq/rotativa.git ~/rotativa && cd ~/rotativa`.
 The archive page's URL is in `briefing/page_url.txt` (call it PAGE_URL).
 
 ## 0. Decide whether to run

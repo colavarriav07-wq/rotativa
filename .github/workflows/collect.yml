@@ -31,6 +31,18 @@ jobs:
       - name: Collect feeds and markets
         run: python collector/collect.py --out out/latest.json
 
+      # GitHub pauses scheduled workflows in public repos after 60 days without
+      # commits, so add one empty commit to main on the 1st of each month.
+      - name: Monthly keep-alive commit
+        if: github.event_name == 'schedule' && github.event.schedule == '10 5,6,7 * * *'
+        run: |
+          if [ "$(date -u +%d)" = "01" ] && [ "$(date -u +%H)" = "05" ]; then
+            git config user.name "news-collector"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -qm "Keep-alive $(date -u +%Y-%m)"
+            git push -q origin HEAD:main
+          fi
+
       # The file goes to a separate "data" branch as a single commit that is
       # replaced each run, so the repository does not grow over time.
       - name: Publish to the data branch
