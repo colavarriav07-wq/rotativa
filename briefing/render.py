@@ -248,9 +248,11 @@ def main():
         fh.write(render_text(b, latest, page_url))
     d = dt.date.fromisoformat(b["date"])
     prefix = "Rotativa semanal" if b["edition"] == "semanal" else "Rotativa"
-    subject = f"{prefix} · {DAYS[d.weekday()].capitalize()} {d.day} de {MONTHS[d.month - 1]}: {b['headline']}"
+    subject = f"{prefix} · {DAYS[d.weekday()].capitalize()} {d.day} de {MONTHS[d.month - 1]}: {b['headline']}".rstrip(".")
+    if len(subject) > 130:  # keep it readable in the inbox; cut on a word boundary
+        subject = subject[:129].rsplit(" ", 1)[0].rstrip(",;:") + "…"
     with open(os.path.join(args.outdir, "subject.txt"), "w", encoding="utf-8") as fh:
-        fh.write(subject[:200])
+        fh.write(subject)
     archive = {
         "date": b["date"],
         "edition": b["edition"],

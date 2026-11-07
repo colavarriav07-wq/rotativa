@@ -65,7 +65,8 @@ Language and tone:
   run to about 1,800.
 
 Content (daily edition):
-- `headline`: one sentence capturing the day's most important news.
+- `headline`: one short sentence (at most 100 characters) capturing the day's most important
+  news. It also becomes the email subject.
 - `essentials`: 3–5 short bullets, the things to know if you read nothing else.
 - `sections`, always in this order and with these exact topic names:
   1. `Geopolítica y mundo`
