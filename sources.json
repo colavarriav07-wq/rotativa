@@ -1,14 +1,38 @@
 {
   "generated": "2026-11-07",
   "regions": [
-    {"id": "espana", "name": "España"},
-    {"id": "reino-unido", "name": "Reino Unido"},
-    {"id": "europa", "name": "Europa"},
-    {"id": "norteamerica", "name": "EE. UU. y Canadá"},
-    {"id": "latam", "name": "Latinoamérica"},
-    {"id": "asia", "name": "Asia-Pacífico"},
-    {"id": "oriente-africa", "name": "Oriente Medio y África"},
-    {"id": "global", "name": "Agencias y medios globales"}
+    {
+      "id": "espana",
+      "name": "España"
+    },
+    {
+      "id": "reino-unido",
+      "name": "Reino Unido"
+    },
+    {
+      "id": "europa",
+      "name": "Europa"
+    },
+    {
+      "id": "norteamerica",
+      "name": "EE. UU. y Canadá"
+    },
+    {
+      "id": "latam",
+      "name": "Latinoamérica"
+    },
+    {
+      "id": "asia",
+      "name": "Asia-Pacífico"
+    },
+    {
+      "id": "oriente-africa",
+      "name": "Oriente Medio y África"
+    },
+    {
+      "id": "global",
+      "name": "Agencias y medios globales"
+    }
   ],
   "sources": [
     {
@@ -1186,8 +1210,8 @@
         "opinion": "https://indianexpress.com/section/opinion/feed/"
       },
       "why": "Diario nacional indio de calidad, gratuito y con fama de periodismo de investigación.",
-      "fetchNotes": "",
-      "defaultOn": true
+      "fetchNotes": "403 from GitHub Actions IPs (blocks cloud servers) as of 2026-11-07",
+      "defaultOn": false
     },
     {
       "id": "timesofindia",
@@ -1208,7 +1232,7 @@
       },
       "why": "Diario de masas que destaca online (DNR 2025); su grupo es dueño del canal Times Now.",
       "fetchNotes": "High volume, lower signal.",
-      "defaultOn": false
+      "defaultOn": true
     },
     {
       "id": "straitstimes",
@@ -1343,8 +1367,8 @@
         "main": "https://www.timesofisrael.com/feed/"
       },
       "why": "Web israelí en inglés de referencia, rápida y de línea mayoritaria.",
-      "fetchNotes": "Only ~14 items; poll several times before the briefing.",
-      "defaultOn": true
+      "fetchNotes": "Only ~14 items; poll several times before the briefing.; 403 from GitHub Actions IPs (blocks cloud servers) as of 2026-11-07",
+      "defaultOn": false
     },
     {
       "id": "haaretz",
@@ -1362,7 +1386,7 @@
       },
       "why": "Diario de referencia de la izquierda liberal israelí, crítico con el Gobierno de Netanyahu.",
       "fetchNotes": "Old URL /cmlink/1.628752 returns HTML; use this one.",
-      "defaultOn": false
+      "defaultOn": true
     },
     {
       "id": "israelhayom",
@@ -1380,7 +1404,7 @@
       },
       "why": "Diario gratuito de mayor tirada de Israel; voz de la derecha pro-Netanyahu.",
       "fetchNotes": "Only 10 items.",
-      "defaultOn": false
+      "defaultOn": true
     },
     {
       "id": "thenational",
