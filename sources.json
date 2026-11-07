@@ -1699,5 +1699,224 @@
       "fetchNotes": "",
       "defaultOn": false
     }
+  ],
+  "videoChannels": [
+    {
+      "id": "rtve",
+      "name": "RTVE Noticias",
+      "channelId": "UC7QZIf0dta-XPXsp9Hv4dTw",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "elpais",
+      "name": "El País",
+      "channelId": "UCnsvJeZO4RigQ898WdDNoBw",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "elmundo",
+      "name": "El Mundo",
+      "channelId": "UCGXbLrVe8vnkiFv7q2vYv3w",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "abc",
+      "name": "ABC",
+      "channelId": "UChFgb_m6aDftnqrxTYFO5Xw",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "antena3",
+      "name": "Antena 3 Noticias",
+      "channelId": "UC_Oni82GyYcabEr3rd-eJkg",
+      "lang": "es",
+      "country": "España"
+    },
+    {
+      "id": "bbcmundo",
+      "name": "BBC News Mundo",
+      "channelId": "UCUBIrDsIVzRpKsClMlSlTpQ",
+      "lang": "es",
+      "country": "Global"
+    },
+    {
+      "id": "dwes",
+      "name": "DW Español",
+      "channelId": "UCT4Jg8h03dD0iN3Pb5L0PMA",
+      "lang": "es",
+      "country": "Alemania"
+    },
+    {
+      "id": "france24es",
+      "name": "France 24 Español",
+      "channelId": "UCUdOoVWuWmgo1wByzcsyKDQ",
+      "lang": "es",
+      "country": "Francia"
+    },
+    {
+      "id": "euronewses",
+      "name": "Euronews Español",
+      "channelId": "UCyoGb3SMlTlB8CLGVH4c8Rw",
+      "lang": "es",
+      "country": "Europa"
+    },
+    {
+      "id": "cnnee",
+      "name": "CNN en Español",
+      "channelId": "UC_lEiu6917IJz03TnntWUaQ",
+      "lang": "es",
+      "country": "EE. UU."
+    },
+    {
+      "id": "infobae",
+      "name": "Infobae",
+      "channelId": "UCvsU0EGXN7Su7MfNqcTGNHg",
+      "lang": "es",
+      "country": "Argentina"
+    },
+    {
+      "id": "bbcnews",
+      "name": "BBC News",
+      "channelId": "UC16niRr50-MSBwiO3YDb3RA",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "skynews",
+      "name": "Sky News",
+      "channelId": "UCoMdktPbSTixAyNGwb-UYkQ",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian News",
+      "channelId": "UCIRYBXDze5krPDzAEOxFGVA",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "channel4",
+      "name": "Channel 4 News",
+      "channelId": "UCTrQ7HXWRRxr7OsOtodr2_w",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "ft",
+      "name": "Financial Times",
+      "channelId": "UCoUxsWakJucWg46KW5RsvPw",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "economist",
+      "name": "The Economist",
+      "channelId": "UC0p5jTq6Xx_DosDFxVXnWaQ",
+      "lang": "en",
+      "country": "Reino Unido"
+    },
+    {
+      "id": "dwnews",
+      "name": "DW News",
+      "channelId": "UCknLrEdhRCp1aegoMqRaCZg",
+      "lang": "en",
+      "country": "Alemania"
+    },
+    {
+      "id": "france24en",
+      "name": "France 24 English",
+      "channelId": "UCQfwfsi5VrQ8yKZ-UWmAEFg",
+      "lang": "en",
+      "country": "Francia"
+    },
+    {
+      "id": "euronews",
+      "name": "Euronews",
+      "channelId": "UCSrZ3UV4jOidv8ppoVuvW9Q",
+      "lang": "en",
+      "country": "Europa"
+    },
+    {
+      "id": "reuters",
+      "name": "Reuters",
+      "channelId": "UChqUTb7kYRX8-EiaN3XFrSQ",
+      "lang": "en",
+      "country": "Global"
+    },
+    {
+      "id": "ap",
+      "name": "Associated Press",
+      "channelId": "UC52X5wxOL_s5yw0dQk7NtgA",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "nyt",
+      "name": "The New York Times",
+      "channelId": "UCqnbDFdCpuN8CMEg0VuEBqA",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "wsj",
+      "name": "The Wall Street Journal",
+      "channelId": "UCK7tptUDHh-RYDsdxO1-5QQ",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "fox",
+      "name": "Fox News",
+      "channelId": "UCXIJgqnII2ZOINSWNOGFThA",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "bloombergtv",
+      "name": "Bloomberg Television",
+      "channelId": "UCIALMKvObZNtJ6AmdCLP7Lg",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "cnbc",
+      "name": "CNBC Television",
+      "channelId": "UCrp_UI8XtuYfpiqluWLD7Lw",
+      "lang": "en",
+      "country": "EE. UU."
+    },
+    {
+      "id": "aljazeera",
+      "name": "Al Jazeera English",
+      "channelId": "UCNye-wNBqNL5ZzHSJj3l8Bg",
+      "lang": "en",
+      "country": "Catar"
+    },
+    {
+      "id": "cgtn",
+      "name": "CGTN",
+      "channelId": "UCgrNz-aDmcr2uuto8_DL2jg",
+      "lang": "en",
+      "country": "China"
+    },
+    {
+      "id": "nhk",
+      "name": "NHK World-Japan",
+      "channelId": "UCSPEjw8F2nQDtmUKPFNF7_A",
+      "lang": "en",
+      "country": "Japón"
+    },
+    {
+      "id": "wion",
+      "name": "WION",
+      "channelId": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "lang": "en",
+      "country": "India"
+    }
   ]
 }

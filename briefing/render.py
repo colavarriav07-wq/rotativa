@@ -1,32 +1,47 @@
 #!/usr/bin/env python3
-"""Render briefing.json (written by Claude) into a compact HTML email, a plain-text
-version, the subject line, and the archive document for the Rotativa page.
+"""Turn briefing.json (written by Claude) into the Rotativa email and the web edition records.
 
 Usage:
-  python briefing/render.py --briefing briefing.json --latest latest.json --outdir out/
-Writes out/email.html, out/email.txt, out/subject.txt and out/archive.json.
+  python briefing/render.py --briefing /tmp/briefing.json --data /tmp/data --outdir /tmp/out
+
+--data is the extracted `data` branch: latest.json plus img/<key>.jpg photos.
+Writes to --outdir:
+  email.html, email.txt, subject.txt   the email
+  archive.json                         the web edition record   -> briefings/<ID>
+  media-<n>.json                       embedded photos (chunks) -> media/<ID>-<n>
+  writes.txt                           the ArtifactData calls to make, one per line
 
 briefing.json schema (all text in Spanish):
 {
-  "date": "2026-11-07",
-  "edition": "diaria" | "semanal",
-  "headline": "One sentence that sums up the day",
-  "essentials": ["3-5 short key points"],
-  "marketNote": "1-2 sentences on what moved markets (optional)",
-  "calendar": [{"time": "10:00", "place": "BCE", "event": "..."}],
-  "sections": [{"topic": "Geopolítica y mundo",
-                "stories": [{"title": "...", "summary": "2-4 sentences",
-                             "sources": [{"name": "El País", "url": "https://..."}]}]}],
-  "twoViews": [{"title": "...", "context": "one neutral sentence",
-                "progressive": {"summary": "...", "sources": [{"name": "...", "url": "..."}]},
-                "conservative": {"summary": "...", "sources": [{"name": "...", "url": "..."}]}}],
-  "worldView": [{"title": "...", "views": [{"country": "China", "source": "CGTN",
-                                            "url": "https://...", "framing": "..."}]}],
-  "trends": ["weekly edition only: 3-5 trends of the week"],
+  "date": "2026-11-07", "edition": "diaria" | "semanal",
+  "headline": "max 100 chars, also the email subject",
+  "essentials": ["3-5 key points"],
+  "stories": [                       // 12 daily / 10 weekly, most important first
+    {"topic": "Mundo" | "Economía" | "Tecnología" | "España y Reino Unido",
+     "title": "...", "short": "one sentence for the email (max 170 chars)",
+     "summary": "3-5 sentences for the web story",
+     "sources": [{"name": "El País", "url": "https://..."}],
+     "imageFrom": "link of a digest item marked [foto] about this story",
+     "countries": ["US", "IR"],      // ISO 3166-1 alpha-2 of the places involved
+     "coverage": 9}                  // how many outlets in the digest covered it
+  ],
+  "figure": {"value": "7,6 %", "label": "...", "context": "...", "source": {"name": "...", "url": "..."}},
+  "explainer": {"title": "Para entender ...", "body": "4-6 sentences", "sources": [{"name": "...", "url": "..."}]},
+  "twoViews": [{"title": "...", "context": "...",
+                "progressive": {"summary": "...", "sources": [...]},
+                "conservative": {"summary": "...", "sources": [...]}}],
+  "worldView": [{"title": "...", "views": [{"country": "China (medio estatal)", "iso": "CN",
+                                            "source": "CGTN", "url": "...", "framing": "..."}]}],
+  "marketNote": "1-2 sentences",
+  "calendar": [{"time": "10:00", "place": "BCE", "event": "...", "url": "optional"}],
+  "videos": [{"url": "exact video link from the digest VÍDEOS list", "note": "why watch it"}],
+  "quiz": [{"q": "...", "options": ["a", "b", "c"], "answer": 0, "explain": "..."}],
+  "trends": ["weekly only"],
   "sourcesUsed": ["elpais", "bbc"]
 }
 """
 import argparse
+import base64
 import datetime as dt
 import html
 import json
@@ -35,40 +50,45 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGE_URL_FILE = os.path.join(ROOT, "briefing", "page_url.txt")
-
+TOPICS = {"Mundo": "#e9b44c", "Economía": "#4fc08d", "Tecnología": "#a98bf5", "España y Reino Unido": "#f2899b"}
 DAYS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
 MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
           "septiembre", "octubre", "noviembre", "diciembre"]
+MEDIA_CHUNK_CHARS = 220_000   # db documents are capped at 256 KiB
 
-# Gmail keeps <style> blocks with class selectors, which keeps the email small.
 CSS = """
-body{margin:0;padding:0;background:#f3f4f2}
-.o{background:#f3f4f2;padding:20px 10px}
-.s{max-width:640px;margin:0 auto;background:#fff;border:1px solid #dfe2df;padding:26px 26px 18px}
-.f,.s td,.s li,.s p{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;color:#15191d}
-.m{font-family:Georgia,'Times New Roman',serif;font-size:30px;letter-spacing:6px;font-weight:700;color:#15191d;margin:0}
-.m b{color:#1d5b4f}
-.dt{font-size:12px;color:#5d6670;margin:4px 0 0}
-.hl{font-family:Georgia,'Times New Roman',serif;font-size:22px;line-height:1.3;margin:18px 0 8px;color:#15191d}
-ul{padding-left:18px;margin:8px 0 0}
-li{font-size:15px;line-height:1.5;margin:0 0 6px}
-.h{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;border-bottom:2px solid #15191d;padding-bottom:6px;margin:28px 0 4px;color:#15191d}
-.t{font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:1.3;font-weight:700;margin:14px 0 4px;color:#15191d}
-.p{font-size:15px;line-height:1.55;margin:0}
-.x{font-size:12px;color:#5d6670;margin:4px 0 8px}
-.x a,.lk{color:#1d5b4f;text-decoration:none;font-weight:600}
-.n{font-size:13px;color:#5d6670;margin:6px 0 0}
-table.k{border-collapse:collapse;width:100%}
-table.k td{padding:7px 8px;border-bottom:1px solid #e6e8e5;font-size:13px}
-.r{text-align:right;white-space:nowrap}
+body{margin:0;padding:0;background:#ecebe7}
+.w{max-width:600px;margin:0 auto;background:#ffffff}
+.f{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif}
+.g{font-family:Georgia,'Times New Roman',serif}
+.top{background:#101315;padding:18px 22px}
+.mast{font-size:24px;letter-spacing:5px;font-weight:700;color:#ffffff;margin:0}
+.mast b{color:#e9b44c}
+.meta{font-size:12px;color:#b9c0c5;margin:6px 0 0}
+.pad{padding:18px 22px 4px}
+.chip{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 8px;border-radius:3px;color:#101315}
+.h1{font-size:26px;line-height:1.2;font-weight:700;color:#101315;margin:10px 0 8px}
+.p{font-size:15px;line-height:1.55;color:#2a3035;margin:0}
+.b{display:inline-block;font-size:12px;font-weight:600;color:#0e5a4d;border:1px solid #0e5a4d;border-radius:14px;padding:6px 10px;margin:8px 6px 0 0;text-decoration:none}
+.ess{background:#f4f2ec;border-left:4px solid #e9b44c;padding:12px 16px;margin:14px 22px 0}
+.ess p{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#7a6a3a;margin:0 0 6px}
+.ess li{font-size:14px;line-height:1.5;color:#101315;margin:0 0 5px}
+.cta{display:block;background:#0e5a4d;color:#ffffff;text-align:center;font-size:15px;font-weight:700;line-height:1.35;padding:15px 18px;border-radius:8px;text-decoration:none;margin:20px 22px 4px}
+.sec{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#101315;border-bottom:2px solid #101315;padding-bottom:6px;margin:26px 22px 6px}
+.row{width:100%;border-collapse:collapse}
+.row td{vertical-align:top;padding:10px 0;border-bottom:1px solid #ebe9e4}
+.t{font-size:17px;line-height:1.25;font-weight:700;color:#101315;margin:4px 0 4px}
+.s{font-size:14px;line-height:1.45;color:#2a3035;margin:0}
+.lab{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.fig{font-size:44px;line-height:1;font-weight:700;color:#0e5a4d;margin:4px 0 6px}
+.k{width:100%;border-collapse:collapse}
+.k td{padding:6px 4px;border-bottom:1px solid #ebe9e4;font-size:13px;color:#101315;white-space:nowrap}
 .up{color:#1e7a46}.dn{color:#b3261e}
-table.c td{padding:5px 12px 5px 0;font-size:14px;line-height:1.45;vertical-align:top}
-.tm{color:#5d6670;white-space:nowrap;font-size:13px}
-.v{border-left:4px solid #7a828a;background:#f6f7f5;padding:8px 12px;margin:8px 0}
-.v.pr{border-color:#b3443f}.v.co{border-color:#2e5e8e}
-.vl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin:0 0 4px}
-.pr .vl{color:#b3443f}.co .vl{color:#2e5e8e}
-.ft{font-size:12px;line-height:1.5;color:#5d6670;border-top:1px solid #dfe2df;margin-top:28px;padding-top:12px}
+.v{padding:10px 14px;margin:8px 22px 0;background:#f6f6f4;border-left:4px solid #7a828a}
+.v.pr{border-color:#c0443e}.v.co{border-color:#2e5e9e}
+.ag td{padding:5px 12px 5px 0;font-size:14px;line-height:1.4;color:#101315;vertical-align:top}
+.ft{font-size:12px;line-height:1.6;color:#6a7278;padding:18px 22px 26px;border-top:1px solid #ebe9e4;margin-top:24px}
+.ft a{color:#0e5a4d}
 """
 
 
@@ -86,9 +106,20 @@ def long_date(iso):
     return f"{DAYS[d.weekday()]} {d.day} de {MONTHS[d.month - 1]} de {d.year}"
 
 
-def validate(b):
-    problems = []
-    for key in ("date", "edition", "headline", "sections"):
+def fmt_value(v):
+    s = f"{v:,.4f}" if v < 10 else f"{v:,.0f}" if v > 1000 else f"{v:,.2f}"
+    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+def pct(v):
+    return "—" if v is None else f"{v:+.2f} %".replace(".", ",")
+
+
+# ---------------------------------------------------------------- validation
+
+def validate(b, video_index):
+    problems, warnings = [], []
+    for key in ("date", "edition", "headline", "stories"):
         if not b.get(key):
             problems.append(f"missing '{key}'")
     try:
@@ -97,175 +128,330 @@ def validate(b):
         problems.append("date must be YYYY-MM-DD")
     if b.get("edition") not in ("diaria", "semanal"):
         problems.append("edition must be 'diaria' or 'semanal'")
-    for s in b.get("sections", []):
-        if not s.get("topic") or not s.get("stories"):
-            problems.append(f"section without topic/stories: {s.get('topic')}")
-        for st in s.get("stories", []):
-            if not st.get("title") or not st.get("summary"):
-                problems.append(f"story without title/summary in {s.get('topic')}")
-            if not st.get("sources"):
-                problems.append(f"story without sources: {st.get('title')}")
-            for src in st.get("sources", []):
-                if not safe_url(src.get("url")):
-                    problems.append(f"source without http(s) url in '{st.get('title')}': {src.get('name')}")
+    if len(b.get("headline", "")) > 110:
+        problems.append("headline is longer than 110 characters: shorten it")
+    for n, st in enumerate(b.get("stories", []), 1):
+        where = f"story {n} ('{(st.get('title') or '')[:40]}')"
+        for key in ("title", "short", "summary"):
+            if not st.get(key):
+                problems.append(f"{where} has no '{key}'")
+        if st.get("topic") not in TOPICS:
+            problems.append(f"{where}: topic must be one of {', '.join(TOPICS)}")
+        if not st.get("sources"):
+            problems.append(f"{where} has no sources")
+        for src in st.get("sources", []):
+            if not safe_url(src.get("url")):
+                problems.append(f"{where}: source '{src.get('name')}' has no http(s) url")
     for tv in b.get("twoViews", []):
         for side in ("progressive", "conservative"):
             if not (tv.get(side) or {}).get("summary"):
                 problems.append(f"twoViews '{tv.get('title')}' missing {side} summary")
-    return problems
+    for q in b.get("quiz", []):
+        opts = q.get("options") or []
+        if not q.get("q") or len(opts) < 2 or not isinstance(q.get("answer"), int) or not 0 <= q["answer"] < len(opts):
+            problems.append(f"quiz question '{(q.get('q') or '')[:40]}' needs q, 2-4 options and a valid answer index")
+    for v in b.get("videos", []):
+        if v.get("url") not in video_index:
+            warnings.append(f"video not in the digest, dropped: {v.get('url')}")
+    n = len(b.get("stories", []))
+    if not 8 <= n <= 15:
+        warnings.append(f"{n} stories (expected 12 daily / 10 weekly)")
+    return problems, warnings
 
 
-def links(sources):
+# ---------------------------------------------------------------- resolving data
+
+def build_indexes(latest, meta):
+    items, videos = {}, {}
+    for sid, res in (latest.get("sources") or {}).items():
+        for it in res.get("items", []):
+            items.setdefault(it["l"], dict(it, source=sid))
+    channels = {c["id"]: c for c in meta.get("videoChannels", [])}
+    for cid, res in (latest.get("videos") or {}).items():
+        ch = channels.get(cid, {})
+        for v in res.get("videos", []):
+            videos[v["l"]] = dict(v, channel=ch.get("name", res.get("name")), lang=ch.get("lang"))
+    return items, videos
+
+
+def resolve_story_image(st, items):
+    for link in [st.get("imageFrom")] + [s.get("url") for s in st.get("sources", [])]:
+        it = items.get(link or "")
+        if it and it.get("k"):
+            return it["k"], it.get("i")
+    for link in [st.get("imageFrom")] + [s.get("url") for s in st.get("sources", [])]:
+        it = items.get(link or "")
+        if it and it.get("i"):
+            return None, it["i"]
+    return None, None
+
+
+def data_uri(path):
+    with open(path, "rb") as fh:
+        return "data:image/jpeg;base64," + base64.b64encode(fh.read()).decode("ascii")
+
+
+# ---------------------------------------------------------------- email
+
+def buttons(sources, limit=4):
     out = []
-    for s in sources or []:
+    for s in (sources or [])[:limit]:
         url = safe_url(s.get("url"))
-        out.append(f'<a href="{esc(url)}">{esc(s.get("name"))}</a>' if url else esc(s.get("name")))
-    return " · ".join(out)
+        if url:
+            out.append(f'<a class="b f" href="{esc(url)}">{esc(s.get("name"))} &#8599;</a>')
+    return "".join(out)
 
 
-def fmt_value(v):
-    s = f"{v:,.4f}" if v < 10 else f"{v:,.0f}" if v > 1000 else f"{v:,.2f}"
-    return s.replace(",", "X").replace(".", ",").replace("X", ".")
+def chip(topic):
+    return f'<span class="chip f" style="background:{TOPICS.get(topic, "#d9d9d9")}">{esc(topic)}</span>'
 
 
-def good_markets(latest):
-    return [m for m in (latest or {}).get("markets", []) if "error" not in m and m.get("value") is not None]
+def markets_rows(markets):
+    rows = []
+    for m in markets:
+        ch = m.get("changePct") or 0
+        width = min(44, int(abs(ch) / 3 * 44)) or 2
+        color = "#1e7a46" if ch > 0 else "#b3261e" if ch < 0 else "#9aa1a6"
+        neg = f'<div style="width:{width}px;height:8px;background:{color};margin-left:auto"></div>' if ch < 0 else ""
+        pos = f'<div style="width:{width}px;height:8px;background:{color}"></div>' if ch >= 0 else ""
+        cls = "up" if ch > 0 else "dn" if ch < 0 else ""
+        rows.append(
+            f'<tr><td class="f">{esc(m["name"])}</td><td class="f" align="right">{fmt_value(m["value"])}</td>'
+            f'<td class="f {cls}" align="right">{pct(m.get("changePct"))}</td>'
+            f'<td width="96"><table role="presentation" cellpadding="0" cellspacing="0" width="96"><tr>'
+            f'<td width="47" align="right" style="border:0;padding:0">{neg}</td>'
+            f'<td width="2" style="border:0;padding:0;background:#c9c6be"></td>'
+            f'<td width="47" style="border:0;padding:0">{pos}</td></tr></table></td></tr>')
+    return "".join(rows)
 
 
-def render_html(b, latest, page_url):
-    weekly = b.get("edition") == "semanal"
+def render_email(arc, page_url):
+    b = arc["briefing"]
+    stories = b["stories"]
+    weekly = b["edition"] == "semanal"
+    web = f"{page_url}#d-{arc['id']}" if page_url else ""
     o = []
     a = o.append
     a(f'<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
       f'<title>{esc(b["headline"])}</title><style>{CSS.strip()}</style></head><body>')
     a(f'<div style="display:none;max-height:0;overflow:hidden">{esc(" · ".join(b.get("essentials", [])[:2]))}</div>')
-    a('<div class="o"><div class="s">')
-    a('<p class="m">ROTA<b>TIVA</b></p>')
-    a(f'<p class="dt f">{"Edición semanal" if weekly else "Informe diario"} · {esc(long_date(b["date"]))}</p>')
-    a(f'<p class="hl">{esc(b["headline"])}</p>')
+    a('<div class="w">')
+    label = "La semana en 10 historias" if weekly else "Informe diario"
+    a(f'<div class="top"><p class="mast g">ROTA<b>TIVA</b></p><p class="meta f">{label} · '
+      f'{esc(long_date(b["date"]).capitalize())} · {len(stories)} historias · {len(b.get("sourcesUsed", []))} fuentes</p></div>')
+
+    lead = stories[0]
+    if lead.get("imgUrl"):
+        a(f'<a href="{esc(web or safe_url(lead["sources"][0]["url"]))}"><img src="{esc(lead["imgUrl"])}" alt="" width="600" '
+          f'style="display:block;width:100%;max-width:600px;height:auto;border:0"></a>')
+    a(f'<div class="pad">{chip(lead["topic"])}<p class="h1 g">{esc(lead["title"])}</p>'
+      f'<p class="p f">{esc(lead.get("short") or lead["summary"])}</p>{buttons(lead.get("sources"))}</div>')
+
     if b.get("essentials"):
-        a("<ul>" + "".join(f"<li>{esc(e)}</li>" for e in b["essentials"]) + "</ul>")
-    if b.get("trends"):
-        a('<p class="h f">Tendencias de la semana</p><ul>' + "".join(f"<li>{esc(t)}</li>" for t in b["trends"]) + "</ul>")
+        a('<div class="ess"><p class="f">Lo esencial</p><ul style="margin:0;padding-left:18px">'
+          + "".join(f'<li class="f">{esc(e)}</li>' for e in b["essentials"]) + "</ul></div>")
+    if web:
+        a(f'<a class="cta f" href="{esc(web)}">Abrir la edición completa: {len(stories)} historias con fotos, mapa, vídeos y test &#8594;</a>')
 
-    mk = good_markets(latest)
+    a('<p class="sec f">Más noticias</p><div style="padding:0 22px">'
+      '<table class="row" role="presentation" cellpadding="0" cellspacing="0">')
+    for st in stories[1:7]:
+        img = ""
+        if st.get("imgUrl"):
+            img = (f'<td width="112" style="padding-right:12px"><img src="{esc(st["imgUrl"])}" alt="" width="104" height="78" '
+                   f'style="display:block;width:104px;height:78px;object-fit:cover;border-radius:4px;border:0"></td>')
+        a(f'<tr>{img}<td><span class="lab f" style="color:#7d858b">{esc(st["topic"])}</span>'
+          f'<p class="t g">{esc(st["title"])}</p><p class="s f">{esc(st.get("short") or st["summary"])}</p>'
+          f'{buttons(st.get("sources"), 3)}</td></tr>')
+    a("</table></div>")
+
+    fig = b.get("figure")
+    if fig:
+        src = fig.get("source") or {}
+        a(f'<p class="sec f">La cifra del día</p><div style="padding:0 22px"><p class="fig g">{esc(fig.get("value"))}</p>'
+          f'<p class="p f"><b>{esc(fig.get("label"))}</b> {esc(fig.get("context"))}</p>{buttons([src] if src else [])}</div>')
+
+    mk = arc.get("markets") or []
     if mk:
-        a('<p class="h f">Mercados</p>')
+        a('<p class="sec f">Mercados</p>')
         if b.get("marketNote"):
-            a(f'<p class="p f" style="margin:6px 0 8px">{esc(b["marketNote"])}</p>')
-        rows = []
-        for m in mk:
-            ch = m.get("changePct")
-            cls = "up" if (ch or 0) > 0 else "dn" if (ch or 0) < 0 else ""
-            arrow = "▲" if (ch or 0) > 0 else "▼" if (ch or 0) < 0 else ""
-            chs = f"{ch:+.2f}%".replace(".", ",") if ch is not None else "—"
-            rows.append(f'<tr><td>{esc(m["name"])}</td><td class="r">{fmt_value(m["value"])}</td><td class="r {cls}">{arrow} {chs}</td></tr>')
-        a('<table class="k" role="presentation">' + "".join(rows) + "</table>")
-
-    if b.get("calendar"):
-        a('<p class="h f">Agenda de hoy</p><table class="c" role="presentation">')
-        for c in b["calendar"]:
-            a(f'<tr><td class="tm">{esc(c.get("time"))}</td><td><b>{esc(c.get("place"))}</b> {esc(c.get("event"))}</td></tr>')
-        a("</table>")
-
-    for section in b.get("sections", []):
-        a(f'<p class="h f">{esc(section["topic"])}</p>')
-        for st in section.get("stories", []):
-            a(f'<p class="t">{esc(st["title"])}</p><p class="p f">{esc(st["summary"])}</p><p class="x f">{links(st.get("sources"))}</p>')
+            a(f'<p class="s f" style="padding:0 22px 6px">{esc(b["marketNote"])}</p>')
+        a(f'<div style="padding:0 22px"><table class="k" role="presentation" cellpadding="0" cellspacing="0">{markets_rows(mk)}</table></div>')
 
     if b.get("twoViews"):
-        a('<p class="h f">Dos miradas</p><p class="n f">La misma noticia contada por la prensa progresista y por la conservadora.</p>')
-        for tv in b["twoViews"]:
-            a(f'<p class="t">{esc(tv["title"])}</p>')
-            if tv.get("context"):
-                a(f'<p class="n f">{esc(tv["context"])}</p>')
-            for key, cls, label in (("progressive", "pr", "Visión progresista"), ("conservative", "co", "Visión conservadora")):
-                v = tv.get(key) or {}
-                a(f'<div class="v {cls}"><p class="vl f">{label}</p><p class="p f">{esc(v.get("summary"))}</p><p class="x f">{links(v.get("sources"))}</p></div>')
+        tv = b["twoViews"][0]
+        a(f'<p class="sec f">Dos miradas</p><p class="t g" style="padding:0 22px">{esc(tv["title"])}</p>')
+        if tv.get("context"):
+            a(f'<p class="s f" style="padding:0 22px;color:#6a7278">{esc(tv["context"])}</p>')
+        for key, cls, label, color in (("progressive", "pr", "Visión progresista", "#c0443e"), ("conservative", "co", "Visión conservadora", "#2e5e9e")):
+            v = tv.get(key) or {}
+            a(f'<div class="v {cls}"><p class="lab f" style="color:{color};margin:0 0 4px">{label}</p>'
+              f'<p class="s f">{esc(v.get("summary"))}</p>{buttons(v.get("sources"), 3)}</div>')
+        if web and len(b["twoViews"]) > 1:
+            a(f'<p class="s f" style="padding:8px 22px 0"><a href="{esc(web)}" style="color:#0e5a4d;font-weight:700">'
+              f'Ver las {len(b["twoViews"])} dos miradas de hoy &#8594;</a></p>')
 
-    if b.get("worldView"):
-        a('<p class="h f">Cómo lo cuenta el mundo</p>')
-        for wv in b["worldView"]:
-            a(f'<p class="t">{esc(wv["title"])}</p><table class="c" role="presentation">')
-            for v in wv.get("views", []):
-                url = safe_url(v.get("url"))
-                src = f'<a class="lk" href="{esc(url)}">{esc(v.get("source"))}</a>' if url else esc(v.get("source"))
-                a(f'<tr><td><b>{esc(v.get("country"))}</b></td><td>{esc(v.get("framing"))} <span class="tm">({src})</span></td></tr>')
-            a("</table>")
+    vids = arc.get("videos") or []
+    if vids:
+        v = vids[0]
+        a(f'<p class="sec f">Vídeo destacado</p><div style="padding:0 22px"><a href="{esc(v["url"])}" style="text-decoration:none">'
+          f'<img src="{esc(v.get("imgUrl"))}" alt="" width="556" style="display:block;width:100%;height:auto;border-radius:6px;border:0">'
+          f'<p class="t g" style="margin-top:8px">&#9654; {esc(v.get("title"))}</p></a>'
+          f'<p class="s f" style="color:#6a7278">{esc(v.get("channel"))} · {esc(v.get("note"))}</p></div>')
 
-    n = len(b.get("sourcesUsed", []))
-    foot = (f"Elaborado con IA a partir de {n} fuentes. " if n else "Elaborado con IA. ")
-    foot += "Los resúmenes pueden contener errores: abre el enlace original antes de citar una noticia."
-    if page_url:
-        foot += f'<br>Cambia tus periódicos o lee el archivo: <a class="lk" href="{esc(page_url)}">Rotativa</a>'
-    a(f'<p class="ft f">{foot}</p></div></div></body></html>')
+    cal = b.get("calendar") or []
+    if cal:
+        a('<p class="sec f">Agenda</p><div style="padding:0 22px"><table class="ag" role="presentation" cellpadding="0" cellspacing="0">')
+        for c in cal[:3]:
+            ev = esc(c.get("event"))
+            if safe_url(c.get("url")):
+                ev = f'<a href="{esc(c["url"])}" style="color:#101315">{ev}</a>'
+            a(f'<tr><td class="f" style="color:#6a7278;white-space:nowrap">{esc(c.get("time"))}</td>'
+              f'<td class="f"><b>{esc(c.get("place"))}</b> {ev}</td></tr>')
+        a("</table></div>")
+
+    if web:
+        a(f'<a class="cta f" href="{esc(web)}">Ver las {len(stories)} historias, el mapa, los vídeos y el test &#8594;</a>')
+    outlets = arc.get("outlets") or []
+    links = " · ".join(f'<a href="{esc(o["homepage"])}">{esc(o["name"])}</a>' if o.get("homepage") else esc(o["name"]) for o in outlets)
+    a(f'<div class="ft f"><b>Fuentes de hoy:</b> {links}<br><br>Resúmenes elaborados con IA a partir de estas fuentes; '
+      f'abre el enlace original antes de citar una noticia.'
+      + (f' <a href="{esc(page_url)}#periodicos">Cambiar mis periódicos</a> · <a href="{esc(page_url)}#archivo">Archivo</a>' if page_url else "")
+      + "</div></div></body></html>")
     return "".join(o)
 
 
-def render_text(b, latest, page_url):
+def render_text(arc, page_url):
+    b = arc["briefing"]
     lines = [f"ROTATIVA — {long_date(b['date'])}", "", b["headline"], ""]
     lines += [f"• {e}" for e in b.get("essentials", [])]
-    mk = good_markets(latest)
-    if mk:
-        lines += ["", "MERCADOS"] + [f"  {m['name']}: {fmt_value(m['value'])} ({m.get('changePct')}%)" for m in mk]
-    for section in b.get("sections", []):
-        lines += ["", section["topic"].upper(), ""]
-        for st in section.get("stories", []):
-            lines += [st["title"], st["summary"],
-                      "  " + " · ".join(f"{s.get('name')}: {s.get('url')}" for s in st.get("sources", [])), ""]
-    for tv in b.get("twoViews", []):
-        lines += ["", "DOS MIRADAS — " + tv["title"],
-                  "Visión progresista: " + (tv.get("progressive") or {}).get("summary", ""),
-                  "Visión conservadora: " + (tv.get("conservative") or {}).get("summary", "")]
     if page_url:
-        lines += ["", f"Tus periódicos y el archivo: {page_url}"]
+        lines += ["", f"Edición completa: {page_url}#d-{arc['id']}"]
+    for st in b["stories"][:7]:
+        lines += ["", f"[{st['topic']}] {st['title']}", st.get("short") or st["summary"]]
+        lines += [f"  {s.get('name')}: {s.get('url')}" for s in st.get("sources", [])[:3]]
     return "\n".join(lines)
 
+
+# ---------------------------------------------------------------- main
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--briefing", required=True)
-    ap.add_argument("--latest")
+    ap.add_argument("--data", required=True, help="extracted data branch (latest.json + img/)")
+    ap.add_argument("--sources", default=os.path.join(ROOT, "sources.json"))
     ap.add_argument("--outdir", default="out")
     ap.add_argument("--page-url", default=None)
     args = ap.parse_args()
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except AttributeError:
+        pass
 
     b = json.load(open(args.briefing, encoding="utf-8"))
-    problems = validate(b)
+    latest = json.load(open(os.path.join(args.data, "latest.json"), encoding="utf-8"))
+    meta = json.load(open(args.sources, encoding="utf-8"))
+    items, video_index = build_indexes(latest, meta)
+    problems, warnings = validate(b, video_index)
     if problems:
         print("INVALID briefing.json — fix these and run again:\n- " + "\n- ".join(problems))
         return 1
-    latest = json.load(open(args.latest, encoding="utf-8")) if args.latest else {}
+    for w in warnings:
+        print("warning: " + w)
+
     page_url = args.page_url
     if page_url is None and os.path.exists(PAGE_URL_FILE):
         page_url = open(PAGE_URL_FILE, encoding="utf-8").read().strip()
+    img_dir = os.path.join(args.data, "img")
+    ed_id = f"{b['date']}-{b['edition']}"
+
+    needed = []   # photo keys to embed for the web edition
+    missing_photos = 0
+    for st in b["stories"]:
+        key, url = resolve_story_image(st, items)
+        st["img"], st["imgUrl"] = key, url
+        st["countries"] = [c.upper() for c in st.get("countries", []) if isinstance(c, str) and len(c) == 2]
+        if key and os.path.exists(os.path.join(img_dir, key + ".jpg")):
+            needed.append(key)
+        else:
+            st["img"] = None
+            missing_photos += 1
+
+    videos = []
+    for v in b.get("videos", []):
+        meta_v = video_index.get(v.get("url"))
+        if not meta_v:
+            continue
+        key = meta_v.get("k") if meta_v.get("k") and os.path.exists(os.path.join(img_dir, meta_v["k"] + ".jpg")) else None
+        if key:
+            needed.append(key)
+        videos.append({"url": meta_v["l"], "note": v.get("note", ""), "title": meta_v["t"], "channel": meta_v.get("channel"),
+                       "lang": meta_v.get("lang"), "date": meta_v.get("d"), "img": key, "imgUrl": meta_v.get("i")})
+    b.pop("videos", None)  # resolved videos live at the top level of the record
+
+    by_id = {s["id"]: s for s in meta["sources"]}
+    used = [by_id[i] for i in dict.fromkeys(b.get("sourcesUsed", [])) if i in by_id]
+    balance = {"side": {}, "region": {}}
+    regions = {r["id"]: r["name"] for r in meta["regions"]}
+    for s in used:
+        balance["side"][s["side"]] = balance["side"].get(s["side"], 0) + 1
+        rn = regions.get(s["region"], s["region"])
+        balance["region"][rn] = balance["region"].get(rn, 0) + 1
+
+    markets = [m for m in latest.get("markets", []) if "error" not in m and m.get("value") is not None]
+    lead_key = b["stories"][0].get("img")
+    cover_path = os.path.join(img_dir, f"{lead_key}_s.jpg") if lead_key else ""
+    arc = {
+        "id": ed_id, "date": b["date"], "edition": b["edition"], "headline": b["headline"],
+        "briefing": b, "videos": videos, "markets": markets, "balance": balance,
+        "outlets": [{"id": s["id"], "name": s["name"], "homepage": s.get("homepage"), "side": s["side"]} for s in used],
+        "cover": data_uri(cover_path) if cover_path and os.path.exists(cover_path) else None,
+        "collectedAt": latest.get("collectedAt"),
+        "createdAt": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+
+    # Pack embedded photos into documents under the 256 KiB limit.
+    chunks, current, size = [], {}, 0
+    for key in dict.fromkeys(needed):
+        uri = data_uri(os.path.join(img_dir, key + ".jpg"))
+        if current and size + len(uri) > MEDIA_CHUNK_CHARS:
+            chunks.append(current)
+            current, size = {}, 0
+        current[key] = uri
+        size += len(uri)
+    if current:
+        chunks.append(current)
+    arc["mediaDocs"] = [f"{ed_id}-{n}" for n in range(1, len(chunks) + 1)]
 
     os.makedirs(args.outdir, exist_ok=True)
-    email_html = render_html(b, latest, page_url)
-    with open(os.path.join(args.outdir, "email.html"), "w", encoding="utf-8") as fh:
+    out = lambda name: os.path.join(args.outdir, name)
+    writes = [f"set briefings/{ed_id} file_path={out('archive.json')}"]
+    for n, chunk in enumerate(chunks, 1):
+        with open(out(f"media-{n}.json"), "w", encoding="utf-8") as fh:
+            json.dump({"edition": ed_id, "date": b["date"], "images": chunk}, fh)
+        writes.append(f"set media/{ed_id}-{n} file_path={out(f'media-{n}.json')}")
+    with open(out("archive.json"), "w", encoding="utf-8") as fh:
+        json.dump(arc, fh, ensure_ascii=False)
+
+    email_html = render_email(arc, page_url)
+    with open(out("email.html"), "w", encoding="utf-8") as fh:
         fh.write(email_html)
-    with open(os.path.join(args.outdir, "email.txt"), "w", encoding="utf-8") as fh:
-        fh.write(render_text(b, latest, page_url))
+    with open(out("email.txt"), "w", encoding="utf-8") as fh:
+        fh.write(render_text(arc, page_url))
     d = dt.date.fromisoformat(b["date"])
     prefix = "Rotativa semanal" if b["edition"] == "semanal" else "Rotativa"
     subject = f"{prefix} · {DAYS[d.weekday()].capitalize()} {d.day} de {MONTHS[d.month - 1]}: {b['headline']}".rstrip(".")
-    if len(subject) > 130:  # keep it readable in the inbox; cut on a word boundary
+    if len(subject) > 130:
         subject = subject[:129].rsplit(" ", 1)[0].rstrip(",;:") + "…"
-    with open(os.path.join(args.outdir, "subject.txt"), "w", encoding="utf-8") as fh:
+    with open(out("subject.txt"), "w", encoding="utf-8") as fh:
         fh.write(subject)
-    archive = {
-        "date": b["date"],
-        "edition": b["edition"],
-        "headline": b["headline"],
-        "briefing": b,
-        "markets": good_markets(latest),
-        "collectedAt": (latest or {}).get("collectedAt"),
-        "createdAt": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-    }
-    with open(os.path.join(args.outdir, "archive.json"), "w", encoding="utf-8") as fh:
-        json.dump(archive, fh, ensure_ascii=False)
-    print(f"OK: email.html ({len(email_html.encode('utf-8')) // 1024} KB), email.txt, subject.txt, archive.json in {args.outdir}")
-    print("Archive doc id: " + f"{b['date']}-{b['edition']}")
+    with open(out("writes.txt"), "w", encoding="utf-8") as fh:
+        fh.write("\n".join(writes) + "\n")
+
+    print(f"OK: email.html ({len(email_html.encode('utf-8')) // 1024} KB), {len(b['stories'])} stories, "
+          f"{len(b['stories']) - missing_photos} with photos, {len(videos)} videos, {len(chunks)} media docs.")
+    print("ArtifactData writes to make (collection/doc_id and file):")
+    print("\n".join("  " + w for w in writes))
     return 0
 
 
