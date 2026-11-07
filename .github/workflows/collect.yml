@@ -1,0 +1,44 @@
+name: Collect news feeds
+
+# Runs three times each morning (UTC) so a fresh file is always ready for the
+# Claude routine at 08:00 UK time, in both winter (GMT) and summer (BST).
+on:
+  schedule:
+    - cron: "10 5,6,7 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install feed parser
+        run: pip install feedparser==6.0.11
+
+      - name: Collect feeds and markets
+        run: python collector/collect.py --out out/latest.json
+
+      # The file goes to a separate "data" branch as a single commit that is
+      # replaced each run, so the repository does not grow over time.
+      - name: Publish to the data branch
+        run: |
+          cd out
+          git init -q -b data
+          git config user.name "news-collector"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json
+          git commit -qm "Collected $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" data
