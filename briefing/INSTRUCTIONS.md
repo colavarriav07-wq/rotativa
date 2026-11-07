@@ -65,9 +65,11 @@ Language and tone:
 Content (daily edition):
 - `headline`: one short sentence, **at most 100 characters**. It is also the email subject.
 - `essentials`: 3–5 short bullets, what to know if you read nothing else.
-- `stories`: **exactly 12** (weekly: 10), the most important first. Rank by importance and
-  by how many different outlets and regions cover the story. Merge the same story from
-  several outlets into one. For each story:
+- `stories`: **exactly 12** (weekly: 10), ordered strictly by importance across all topics,
+  the most important first. **Do not group them by topic**: the reader swipes through them
+  one by one, so the topics must be mixed, with no more than two stories of the same topic
+  in a row. Rank by importance and by how many different outlets and regions cover the
+  story. Merge the same story from several outlets into one. For each story:
   - `topic`: exactly one of `Mundo`, `Economía`, `Tecnología`, `España y Reino Unido`.
     Aim for a mix: at least 2 per topic when the news allows.
   - `title`: a strong Spanish headline, at most 90 characters.
