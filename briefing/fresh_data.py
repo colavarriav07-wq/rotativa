@@ -16,15 +16,17 @@ It prints one of:
   ESPERANDO ...  the collection is still running: run the script again
   SIN DATOS ...  there is no data branch at all
 
-Usage: python3 briefing/fresh_data.py [--out /tmp/data]
+Usage: python3 briefing/fresh_data.py [--out /tmp/data] [--force]
 """
 import argparse
 import datetime as dt
+import io
 import json
 import os
-import shlex
+import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import time
 
@@ -38,7 +40,7 @@ GIT_ENV = dict(os.environ, GIT_AUTHOR_NAME="Rotativa", GIT_AUTHOR_EMAIL="rotativ
 
 
 def git(*args):
-    return subprocess.run(["git", *args], capture_output=True, text=True, env=GIT_ENV)
+    return subprocess.run(["git", *args], capture_output=True, text=True, encoding="utf-8", errors="replace", env=GIT_ENV)
 
 
 def now():
@@ -67,8 +69,14 @@ def collected_at():
 
 
 def extract(out):
-    subprocess.run(f"rm -rf {shlex.quote(out)} && mkdir -p {shlex.quote(out)} && "
-                   f"git archive origin/data | tar -x -C {shlex.quote(out)}", shell=True, check=True)
+    archive = subprocess.run(["git", "archive", "origin/data"], capture_output=True, check=True)
+    shutil.rmtree(out, ignore_errors=True)
+    os.makedirs(out)
+    with tarfile.open(fileobj=io.BytesIO(archive.stdout)) as tar:
+        try:
+            tar.extractall(out, filter="data")
+        except TypeError:            # Python without extraction filters
+            tar.extractall(out)
 
 
 def request_collection():
@@ -100,13 +108,15 @@ def ready(out, stamp, note=""):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="/tmp/data")
-    out = ap.parse_args().out
+    ap.add_argument("--force", action="store_true", help="ask for a new collection even if the data is fresh")
+    args = ap.parse_args()
+    out = args.out
 
     state = load_state()
     stamp = collected_at()
 
     if "requested" not in state:
-        if stamp and minutes_since(stamp) < FRESH_MIN:
+        if stamp and minutes_since(stamp) < FRESH_MIN and not args.force:
             return ready(out, stamp)
         error = request_collection()
         state = {"requested": now().isoformat(), "before": stamp, "error": error}
