@@ -1,10 +1,13 @@
 name: Collect news feeds
 
-# Runs three times each morning (UTC) so a fresh file is always ready for the
-# Claude routine at 08:00 UK time, in both winter (GMT) and summer (BST).
+# The Claude routine asks for a fresh collection itself, by pushing a commit to
+# the collect-now branch (briefing/fresh_data.py). The schedule is a fallback:
+# GitHub sometimes delays or skips scheduled runs, especially on the hour.
 on:
+  push:
+    branches: [collect-now]
   schedule:
-    - cron: "10 5,6,7 * * *"
+    - cron: "23 3-8 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -34,7 +37,7 @@ jobs:
       # GitHub pauses scheduled workflows in public repos after 60 days without
       # commits, so add one empty commit to main on the 1st of each month.
       - name: Monthly keep-alive commit
-        if: github.event_name == 'schedule' && github.event.schedule == '10 5,6,7 * * *'
+        if: github.event_name == 'schedule'
         run: |
           if [ "$(date -u +%d)" = "01" ] && [ "$(date -u +%H)" = "05" ]; then
             git config user.name "news-collector"

@@ -298,7 +298,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
       <nav class="tabs" aria-label="Secciones"><a href="#hoy">Hoy</a><a href="#archivo">Archivo</a><a href="#periodicos" aria-current="page">Periódicos</a></nav>
     </header>
     <h1>Tus periódicos</h1>
-    <p class="sub">El informe de cada mañana se escribe solo con los medios que marques aquí. El punto de color indica la línea editorial.</p>
+    <p class="sub">Ya hay una selección recomendada y equilibrada, así que no tienes que tocar nada. Si quieres, puedes añadir o quitar medios: el informe de cada mañana se escribe con los que estén marcados. El punto de color indica la línea editorial.</p>
     <div class="bar">
       <div class="bar-top">
         <div class="count" id="count">0 <small>periódicos seleccionados</small></div>
@@ -347,6 +347,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
   const link = (name, url, cls) => { const u = safeUrl(url); const a = el(u ? "a" : "span", cls || "src", name); if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; } return a; };
 
   const PRIVATE_URL = "https://claude.ai/artifact/NaGRp2uXY2z1qKES7QtiQM";
+  const SITE_URL = "https://colavarriav07-wq.github.io/rotativa/";
   const QUIZ_KEY = "rotativa-quiz";
   const state = { mode: "db", sources: [], regions: [], db: null, user: null, uid: null, editions: [], media: {}, current: null, slides: [], at: 0,
                   selected: new Set(), saved: null, canWrite: null, filters: { q: "", free: false, on: false }, quiz: {} };
@@ -775,10 +776,13 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
 
   function renderEmptyStage(msg, loading) {
     const sl = slide("empty", { title: "Rotativa" });
-    sl.inner.append(el("div", "label", "Rotativa"), el("h1", "big", msg || "Tu primera edición llega mañana a las 08:00"));
+    sl.inner.append(el("div", "label", "Rotativa"), el("h1", "big", msg || "La edición de hoy está en la web de Rotativa"));
     if (!loading) {
-      sl.inner.appendChild(el("p", "lede muted", "Cada mañana aparecerá aquí la edición del día como historias a pantalla completa: fotos, mapa, mercados, vídeos y un test."));
-      const go = el("div", "go"); const a = el("a", "btn", "Elegir mis periódicos"); a.href = picksUrl(); go.appendChild(a); sl.inner.appendChild(go);
+      sl.inner.appendChild(el("p", "lede muted", "Cada mañana a las 08:00 (hora de Reino Unido) llega una edición nueva. Los periódicos ya están elegidos: no tienes que hacer nada."));
+      if (state.mode !== "static") {   // the public website always has every edition
+        const go = el("div", "go"); const a = el("a", "btn", "Leer la edición de hoy"); a.href = SITE_URL; a.target = "_blank"; a.rel = "noopener";
+        go.appendChild(a); sl.inner.appendChild(go);
+      }
     }
     state.slides = [sl]; $("slides").replaceChildren(sl.node); $("segs").replaceChildren(el("i")); sl.node.classList.add("on");
     $("date").textContent = ""; $("prev").disabled = true; $("next").disabled = true;
@@ -966,7 +970,7 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
       try { const can = await user.can("data.write"); state.canWrite = can === null ? null : !!can; } catch (e) {}
       try { state.uid = await user.id(); } catch (e) {}
     }
-    if (!db) { renderEmptyStage("Inicia sesión en claude.ai para leer Rotativa"); return; }
+    if (!db) { renderEmptyStage(); return; }
     state.db = db;
     loadQuiz().then(() => { if (!$("view-archivo").hidden) renderArchive(); });
     let loaded = false;

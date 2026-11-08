@@ -28,10 +28,13 @@ The routine fires at 06:45 and 07:45 UTC so that it follows UK daylight saving t
 
 ## 1. Gather the material
 
-1. Extract the collected data (feeds, photos, videos, markets):
-   `git fetch -q origin data && rm -rf /tmp/data && mkdir -p /tmp/data && git archive origin/data | tar -x -C /tmp/data`.
-   Read `collectedAt` in `/tmp/data/latest.json`. If it is more than 6 hours old, or the
-   fetch fails, continue anyway and lean on web search in step 2.
+1. Get fresh collected data (feeds, photos, videos, markets): run
+   `python3 briefing/fresh_data.py`. If the data is old, it asks the GitHub collector for a
+   new collection and waits for it.
+   - If it prints `ESPERANDO`, run the same command again. Repeat up to 8 times in total.
+   - When it prints `LISTO`, the data is in `/tmp/data`; the line says how old it is.
+   - If the data is still more than 6 hours old, or the script fails, continue anyway and
+     lean on web search in step 2. Say so in the step 8 summary.
 2. Get the chosen newspapers: ArtifactData `get`, collection=`config`, doc_id=`settings`.
    Use its `selected` ids if the list is not empty, otherwise the defaults.
 3. Build the digest:
