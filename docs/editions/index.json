@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-09-diaria",
+   "date": "2026-11-09",
+   "edition": "diaria",
+   "headline": "Muere el autor del tiroteo de Cracovia y Nvidia investiga a su consejero delegado",
+   "coverUrl": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/b131/live/b7c6ce50-dc06-11f1-b6f4-7b86d13131ad.jpg",
+   "createdAt": "2026-11-09T07:49:58Z"
+  },
+  {
    "id": "2026-11-08-semanal",
    "date": "2026-11-08",
    "edition": "semanal",
