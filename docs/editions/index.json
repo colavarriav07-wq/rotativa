@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-10-diaria",
+   "date": "2026-11-10",
+   "edition": "diaria",
+   "headline": "Nvidia, bajo la lupa del FBI; España, a un día de la huelga general del 11-N",
+   "coverUrl": "https://ichef.bbci.co.uk/ace/ws/976/cpsprodpb/3dc1/live/bb43d3f0-dcb2-11f1-a3d2-65121b4e1ac7.png",
+   "createdAt": "2026-11-10T07:50:24Z"
+  },
+  {
    "id": "2026-11-09-diaria",
    "date": "2026-11-09",
    "edition": "diaria",
