@@ -65,6 +65,34 @@ Language and tone:
 - Spanish from Spain, clear and lively but neutral, with no opinion of your own and no hype.
 - Translate every headline from other languages. Use `%` with a space (`2,5 %`) and decimal commas.
 
+Big numbers (Carlos checks these; getting one wrong is a serious error):
+- English **billion** (bn, b) = **mil millones**: $5bn = 5.000 millones de dólares;
+  $2.5 billion = 2.500 millones de dólares; £40bn = 40.000 millones de libras.
+- English **trillion** (tn, trn) = **billón**: $1.2tn = 1,2 billones de dólares;
+  $1 trillion = un billón de dólares.
+- German *Milliarde* and French *milliard* = mil millones. German *Billion* and French
+  *billion* = billón.
+- Never write "trillón" or "millardo". Never leave "billion" or "trillion" untranslated.
+- Use a dot for thousands and a comma for decimals: 2.500 millones, 1,2 billones.
+- Check every big figure against the digest line it comes from before you write it.
+- If a source is unclear about the scale, keep the original figure in brackets,
+  for example "1,2 billones de dólares ($1.2 trillion)".
+- `render.py` flags likely mistakes. Read every number warning it prints and fix the JSON
+  where the warning is right.
+
+When a translation would not be faithful, keep the English:
+- Some English headlines don't translate well: wordplay, idioms, legal or technical terms,
+  carefully worded political statements, or quotes where the exact words matter.
+- For those stories, still write the Spanish `title`, `short` and `summary`. Also set
+  `original` to the exact link of the English-language digest article whose wording matters.
+  The email and the web then show that article's headline and standfirst word for word, in
+  English, under the Spanish text.
+- Use it only where it adds something, typically 0–4 stories per edition. It must be an
+  English-language source; for French, German or other originals, prefer an English outlet
+  covering the same story, or leave it out.
+- For a short quote whose exact words matter, you may also keep the English in brackets
+  inside the Spanish text, for example: «no habrá marcha atrás» ("there is no going back").
+
 Content (daily edition):
 - `headline`: one short sentence, **at most 100 characters**. It is also the email subject.
 - `essentials`: 3–5 short bullets, what to know if you read nothing else.
@@ -84,6 +112,7 @@ Content (daily edition):
     the most striking. Every story should have one when possible; never reuse the same photo.
   - `countries`: ISO alpha-2 codes of the countries the story is about (for the map).
   - `coverage`: how many different outlets in the digest covered the story (count them).
+  - `original` (optional): see "When a translation would not be faithful" above.
 - `figure` ("La cifra del día"): one striking number from today's news, with `label`
   (what it is), `context` (1–2 sentences) and `source`.
 - `explainer` ("Para entenderlo"): pick the most complex story of the day. Give a `title`
@@ -121,8 +150,9 @@ Each is one of the week's big stories and summarises how it developed. Also incl
 ## 4. Render and check
 
 Run `python3 briefing/render.py --briefing /tmp/briefing.json --data /tmp/data --outdir /tmp/out`.
-If it prints `INVALID`, fix the JSON and run it again until it prints `OK`. Warnings are fine,
-but if many stories have no photo, pick better `imageFrom` links.
+If it prints `INVALID`, fix the JSON and run it again until it prints `OK`. Most warnings are
+fine, but if many stories have no photo, pick better `imageFrom` links. Check every warning
+about `billón` or English number words against the digest, and fix the ones that are wrong.
 
 ## 5. Send the email
 

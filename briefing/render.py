@@ -23,7 +23,9 @@ briefing.json schema (all text in Spanish):
      "sources": [{"name": "El País", "url": "https://..."}],
      "imageFrom": "link of a digest item marked [foto] about this story",
      "countries": ["US", "IR"],      // ISO 3166-1 alpha-2 of the places involved
-     "coverage": 9}                  // how many outlets in the digest covered it
+     "coverage": 9,                  // how many outlets in the digest covered it
+     "original": "optional: link of an ENGLISH-language digest article; its headline and
+                  standfirst are shown word for word under the Spanish text (see INSTRUCTIONS.md)"}
   ],
   "figure": {"value": "7,6 %", "label": "...", "context": "...", "source": {"name": "...", "url": "..."}},
   "explainer": {"title": "Para entender ...", "body": "4-6 sentences", "sources": [{"name": "...", "url": "..."}]},
@@ -46,6 +48,7 @@ import datetime as dt
 import html
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,6 +95,8 @@ body{margin:0;padding:0;background:#ecebe7}
 .v{padding:10px 14px;margin:8px 22px 0;background:#f6f6f4;border-left:4px solid #7a828a}
 .v.pr{border-color:#c0443e}.v.co{border-color:#2e5e9e}
 .ag td{padding:5px 12px 5px 0;font-size:14px;line-height:1.4;color:#101315;vertical-align:top}
+.o{font-size:13px;line-height:1.45;color:#4a5258;background:#f4f2ec;border-left:3px solid #c9c6be;padding:7px 10px;margin:8px 0 0}
+.o i{color:#101315}
 .ft{font-size:12px;line-height:1.6;color:#6a7278;padding:18px 22px 26px;border-top:1px solid #ebe9e4;margin-top:24px}
 .ft a{color:#0e5a4d}
 """
@@ -122,8 +127,71 @@ def pct(v):
 
 # ---------------------------------------------------------------- validation
 
-def validate(b, video_index):
+SKIP_KEYS = {"original", "url", "imageFrom", "sources", "countries", "sourcesUsed", "iso", "date", "edition", "topic"}
+SCALE_WORDS = {   # per source language: (thousand-million words, million-million words)
+    "en": (r"\bbillions?\b|\d\s?bn\b", r"\btrillions?\b|\d\s?(?:tn|trn)\b"),
+    "de": (r"\bmilliarden?\b|\d\s?mrd\b", r"\bbillionen\b|\bbillion\b"),
+    "fr": (r"\bmilliards?\b|\d\s?mds?\b", r"\bbillions?\b"),
+    "es": (r"\bmil millones\b", r"\bbill[oó]n(?:es)?\b"),
+}
+
+
+def spanish_texts(node, path="briefing"):
+    """Every Spanish text in briefing.json, with where it is (links and English originals left out)."""
+    if isinstance(node, str):
+        yield path, node
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            yield from spanish_texts(v, f"{path}[{i}]")
+    elif isinstance(node, dict):
+        for k, v in node.items():
+            if k not in SKIP_KEYS:
+                yield from spanish_texts(v, f"{path}.{k}")
+
+
+def check_numbers(b, items, langs):
+    """Billion / trillion: an English billion is 'mil millones'; only an English trillion is a 'billón'."""
     problems, warnings = [], []
+    for where, text in spanish_texts(b):
+        for m in re.finditer(r"\btrill[oó]n(?:es)?\b|\bmillardos?\b", text, re.I):
+            problems.append(f"{where}: '{m.group(0)}' is wrong here. English billion = 'mil millones'; "
+                            f"English trillion = 'billón'. Never 'trillón' or 'millardo'")
+        for m in re.finditer(r"\b(?:billions?|trillions?)\b|\d\s?(?:bn|tn|trn)\b", text, re.I):
+            ctx = text[max(0, m.start() - 40):m.end() + 20]
+            warnings.append(f"{where}: English number word '{m.group(0)}' in the Spanish text (…{ctx}…). "
+                            f"Translate it, unless it is the original figure kept in brackets")
+        for m in re.finditer(r"\bbill[oó]n(?:es)?\b", text, re.I):
+            ctx = text[max(0, m.start() - 50):m.end() + 25]
+            warnings.append(f"{where}: check '…{ctx}…' translates an English TRILLION (10^12). "
+                            f"If the source says billion, write 'mil millones'")
+    for n, st in enumerate(b.get("stories", []), 1):
+        mine = " ".join(t for _, t in spanish_texts(st)).lower()
+        has_billon = re.search(r"\bbill[oó]n(?:es)?\b", mine)
+        has_milmill = re.search(r"\bmil millones\b", mine)
+        if not (has_billon or has_milmill):
+            continue
+        small = big = False
+        for link in [st.get("imageFrom")] + [x.get("url") for x in st.get("sources", [])]:
+            it = items.get(link or "")
+            words = SCALE_WORDS.get(langs.get(it.get("source")) if it else None)
+            if not words:
+                continue
+            text = f"{it.get('t', '')} {it.get('s', '')}".lower()
+            small = small or bool(re.search(words[0], text))
+            big = big or bool(re.search(words[1], text))
+        where = f"story {n} ('{(st.get('title') or '')[:40]}')"
+        if has_billon and small and not big:
+            problems.append(f"{where} says 'billón/billones', but its sources speak of billions "
+                            f"(= miles de millones). Write 'mil millones', e.g. $5bn = 5.000 millones de dólares")
+        if has_milmill and big and not small:
+            problems.append(f"{where} says 'mil millones', but its sources speak of trillions (= billones). "
+                            f"Write 'billón/billones', e.g. $1.2tn = 1,2 billones de dólares")
+    return problems, warnings
+
+
+def validate(b, video_index, items=None, langs=None):
+    problems, warnings = [], []
+    items, langs = items or {}, langs or {}
     for key in ("date", "edition", "headline", "stories"):
         if not b.get(key):
             problems.append(f"missing '{key}'")
@@ -147,6 +215,13 @@ def validate(b, video_index):
         for src in st.get("sources", []):
             if not safe_url(src.get("url")):
                 problems.append(f"{where}: source '{src.get('name')}' has no http(s) url")
+        if st.get("original"):
+            it = items.get(st["original"]) if isinstance(st["original"], str) else None
+            if not it:
+                problems.append(f"{where}: 'original' must be the exact link of a digest article")
+            elif langs.get(it.get("source")) != "en":
+                problems.append(f"{where}: 'original' must be an English-language article "
+                                f"({it.get('source')} is not in English)")
     for tv in b.get("twoViews", []):
         for side in ("progressive", "conservative"):
             if not (tv.get(side) or {}).get("summary"):
@@ -161,7 +236,8 @@ def validate(b, video_index):
     n = len(b.get("stories", []))
     if not 8 <= n <= 15:
         warnings.append(f"{n} stories (expected 12 daily / 10 weekly)")
-    return problems, warnings
+    p2, w2 = check_numbers(b, items, langs)
+    return problems + p2, warnings + w2
 
 
 # ---------------------------------------------------------------- resolving data
@@ -205,6 +281,15 @@ def buttons(sources, limit=4):
         if url:
             out.append(f'<a class="b f" href="{esc(url)}">{esc(s.get("name"))} &#8599;</a>')
     return "".join(out)
+
+
+def original_box(st):
+    o = st.get("original")
+    if not o or not o.get("title"):
+        return ""
+    text = f' {esc(o["text"])}' if o.get("text") else ""
+    return (f'<p class="o f" lang="en"><b>Tal cual, en inglés ({esc(o.get("source"))}):</b> '
+            f'<i>{esc(o["title"])}</i>{text}</p>')
 
 
 def chip(topic):
@@ -251,7 +336,7 @@ def render_email(arc, page_url):
         a(f'<a href="{esc(web or safe_url(lead["sources"][0]["url"]))}"><img src="{esc(lead["imgUrl"])}" alt="" width="600" '
           f'style="display:block;width:100%;max-width:600px;height:auto;border:0"></a>')
     a(f'<div class="pad">{chip(lead["topic"])}<p class="h1 g">{esc(lead["title"])}</p>'
-      f'<p class="p f">{esc(lead.get("short") or lead["summary"])}</p>{buttons(lead.get("sources"))}</div>')
+      f'<p class="p f">{esc(lead.get("short") or lead["summary"])}</p>{original_box(lead)}{buttons(lead.get("sources"))}</div>')
 
     if b.get("essentials"):
         a('<div class="ess"><p class="f">Lo esencial</p><ul style="margin:0;padding-left:18px">'
@@ -268,7 +353,7 @@ def render_email(arc, page_url):
                    f'style="display:block;width:104px;height:78px;object-fit:cover;border-radius:4px;border:0"></td>')
         a(f'<tr>{img}<td><span class="lab f" style="color:#7d858b">{esc(st["topic"])}</span>'
           f'<p class="t g">{esc(st["title"])}</p><p class="s f">{esc(st.get("short") or st["summary"])}</p>'
-          f'{buttons(st.get("sources"), 3)}</td></tr>')
+          f'{original_box(st)}{buttons(st.get("sources"), 3)}</td></tr>')
     a("</table></div>")
 
     fig = b.get("figure")
@@ -337,6 +422,9 @@ def render_text(arc, page_url):
         lines += ["", f"Edición completa: {site}#d-{arc['id']}"]
     for st in b["stories"][:7]:
         lines += ["", f"[{st['topic']}] {st['title']}", st.get("short") or st["summary"]]
+        if (st.get("original") or {}).get("title"):
+            o = st["original"]
+            lines += [f"  Tal cual, en inglés ({o.get('source')}): {o['title']}" + (f" {o['text']}" if o.get("text") else "")]
         lines += [f"  {s.get('name')}: {s.get('url')}" for s in st.get("sources", [])[:3]]
     return "\n".join(lines)
 
@@ -360,9 +448,13 @@ def main():
     latest = json.load(open(os.path.join(args.data, "latest.json"), encoding="utf-8"))
     meta = json.load(open(args.sources, encoding="utf-8"))
     items, video_index = build_indexes(latest, meta)
-    problems, warnings = validate(b, video_index)
+    langs = {x["id"]: x.get("lang") for x in meta.get("sources", [])}
+    names = {x["id"]: x.get("name") for x in meta.get("sources", [])}
+    problems, warnings = validate(b, video_index, items, langs)
     if problems:
         print("INVALID briefing.json — fix these and run again:\n- " + "\n- ".join(problems))
+        for w in warnings:
+            print("warning: " + w)
         return 1
     for w in warnings:
         print("warning: " + w)
@@ -376,6 +468,10 @@ def main():
     needed = []   # photo keys to embed for the web edition
     missing_photos = 0
     for st in b["stories"]:
+        if st.get("original"):   # the English headline and standfirst, word for word
+            it = items[st["original"]]
+            st["original"] = {"url": it["l"], "source": names.get(it["source"]) or it["source"], "lang": "en",
+                              "title": it.get("t", ""), "text": it.get("s", "")}
         key, url = resolve_story_image(st, items)
         st["img"], st["imgUrl"] = key, url
         st["countries"] = [c.upper() for c in st.get("countries", []) if isinstance(c, str) and len(c) == 2]

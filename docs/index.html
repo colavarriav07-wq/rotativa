@@ -100,6 +100,11 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
 .src:hover { border-color: var(--accent); color: var(--accent); }
 .src::after { content: "\2197"; font-size: 12px; opacity: .8; }
 .meta { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; color: var(--text-3); font-size: 12px; }
+/* the original English wording, shown when the translation may lose nuance */
+.orig { margin-top: 16px; max-width: 62ch; border-left: 3px solid var(--tone, var(--accent)); background: rgba(16,20,23,.85); padding: 10px 14px 12px; border-radius: 0 6px 6px 0; }
+.orig .label { font-size: 10px; }
+.orig-t { font-family: var(--font-display); font-style: italic; font-size: 1.08rem; line-height: 1.4; margin: 6px 0 0; color: var(--text); }
+.orig-s { font-size: 14px; line-height: 1.5; margin: 6px 0 0; color: var(--text-2); }
 .ess { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; max-width: 60ch; }
 .ess li { font-family: var(--font-display); font-size: clamp(1rem, 1.7vw, 1.2rem); line-height: 1.45; padding-left: 18px; position: relative; }
 .ess li::before { content: ""; position: absolute; left: 0; top: .62em; width: 7px; height: 7px; background: var(--accent); border-radius: 1px; }
@@ -441,6 +446,13 @@ h2.st { font-size: clamp(1.65rem, 4.2vw, 3.1rem); }
     const sl = slide("story", { photo: photoFor(st), tone, title: st.title, label: st.topic });
     const k = el("div", "kick"); k.append(el("span", "chip", st.topic || "Noticia"), el("span", "n", `${i + 1} / ${n}`));
     sl.inner.append(k, el("h2", "st", st.title), el("p", "lede", st.summary || st.short || ""));
+    const o = st.original;
+    if (o && o.title) {
+      const box = el("div", "orig"); box.lang = o.lang || "en";
+      box.append(el("div", "label", `Tal cual, en inglés${o.source ? " · " + o.source : ""}`), el("p", "orig-t", o.title));
+      if (o.text) box.appendChild(el("p", "orig-s", o.text));
+      sl.inner.appendChild(box);
+    }
     const meta = el("div", "meta");
     if (st.coverage) meta.appendChild(el("span", null, `Cubierta por ${st.coverage} medios`));
     if (st.countries && st.countries.length) meta.appendChild(el("span", null, st.countries.map(c => `${flag(c)} ${countryName(c)}`.trim()).join("  ·  ")));
