@@ -189,6 +189,40 @@ def check_numbers(b, items, langs):
     return problems, warnings
 
 
+def check_repeats(b, latest):
+    """A daily edition must not repeat the previous edition (docs/editions in this checkout)."""
+    problems, warnings = [], []
+    collected = latest.get("collectedAt")
+    if collected:
+        age_h = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(collected.replace("Z", "+00:00"))).total_seconds() / 3600
+        if age_h > 6:
+            warnings.append(f"the headlines were collected {age_h:.0f} hours ago: run briefing/fresh_data.py first")
+    if b.get("edition") != "diaria":
+        return problems, warnings   # the weekly edition summarises the week on purpose
+    editions_dir = os.path.join(ROOT, "docs", "editions")
+    try:
+        index = json.load(open(os.path.join(editions_dir, "index.json"), encoding="utf-8"))["editions"]
+        prev = max((e for e in index if e.get("date", "") < b.get("date", "")), key=lambda e: e["date"])
+        prev_doc = json.load(open(os.path.join(editions_dir, prev["id"] + ".json"), encoding="utf-8"))
+    except (OSError, ValueError, KeyError):
+        return problems, warnings
+    old = {}
+    for st in (prev_doc.get("briefing") or {}).get("stories", []):
+        for s in st.get("sources", []):
+            old[s.get("url")] = st.get("title", "")
+    repeated = []
+    for n, st in enumerate(b.get("stories", []), 1):
+        same = [old[s.get("url")] for s in st.get("sources", []) if s.get("url") in old]
+        if same:
+            repeated.append(f"story {n} ('{(st.get('title') or '')[:45]}') reuses the articles of "
+                            f"{prev['id']} story '{same[0][:45]}'")
+    if repeated:
+        problems.append(f"{len(repeated)} stories repeat the previous edition ({prev['id']}). Use only today's "
+                        f"articles; if a story continues, cite today's coverage and say what is new:\n  - "
+                        + "\n  - ".join(repeated))
+    return problems, warnings
+
+
 def validate(b, video_index, items=None, langs=None):
     problems, warnings = [], []
     items, langs = items or {}, langs or {}
@@ -451,6 +485,8 @@ def main():
     langs = {x["id"]: x.get("lang") for x in meta.get("sources", [])}
     names = {x["id"]: x.get("name") for x in meta.get("sources", [])}
     problems, warnings = validate(b, video_index, items, langs)
+    p3, w3 = check_repeats(b, latest)
+    problems, warnings = problems + p3, warnings + w3
     if problems:
         print("INVALID briefing.json — fix these and run again:\n- " + "\n- ".join(problems))
         for w in warnings:

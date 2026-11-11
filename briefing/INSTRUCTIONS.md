@@ -100,7 +100,12 @@ Content (daily edition):
   the most important first. **Do not group them by topic**: the reader swipes through them
   one by one, so the topics must be mixed, with no more than two stories of the same topic
   in a row. Rank by importance and by how many different outlets and regions cover the
-  story. Merge the same story from several outlets into one. For each story:
+  story. Merge the same story from several outlets into one.
+  **Never repeat the previous edition.** Read its stories first:
+  `python3 -c "import json;i=json.load(open('docs/editions/index.json'))['editions'];print(i[0]['id']);[print('-',s['title']) for s in json.load(open('docs/editions/'+i[0]['id']+'.json'))['briefing']['stories']]"`.
+  A story that continues from yesterday may appear only if there is a real new development
+  today, told from today's articles. `render.py` refuses an edition that cites yesterday's
+  articles. For each story:
   - `topic`: exactly one of `Mundo`, `Economía`, `Tecnología`, `España y Reino Unido`.
     Aim for a mix: at least 2 per topic when the news allows.
   - `title`: a strong Spanish headline, at most 90 characters.
