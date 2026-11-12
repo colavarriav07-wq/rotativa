@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-12-diaria",
+   "date": "2026-11-12",
+   "edition": "diaria",
+   "headline": "Nvidia sopesa destituir a Huang, EE. UU. va a Moscú y España digiere la huelga general",
+   "coverUrl": "https://static01.nyt.com/images/2026/11/11/multimedia/00biz-jensen-huang-gzlb/00biz-jensen-huang-gzlb-mediumSquareAt3X-v2.jpg",
+   "createdAt": "2026-11-12T07:50:01Z"
+  },
+  {
    "id": "2026-11-10-diaria",
    "date": "2026-11-10",
    "edition": "diaria",
