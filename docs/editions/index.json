@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-13-diaria",
+   "date": "2026-11-13",
+   "edition": "diaria",
+   "headline": "Huang deja Nvidia, Microsoft sigue caído y arranca la campaña del 29-N en España",
+   "coverUrl": "https://cdn.i-scmp.com/sites/default/files/styles/1280x720/public/d8/images/canvas/2026/11/13/b5865823-298e-46af-999a-0efecb297310_d232326c.jpg?itok=0esXgjYT&v=1794552962",
+   "createdAt": "2026-11-13T07:52:27Z"
+  },
+  {
    "id": "2026-11-12-diaria",
    "date": "2026-11-12",
    "edition": "diaria",
