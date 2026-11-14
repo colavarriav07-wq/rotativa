@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-14-diaria",
+   "date": "2026-11-14",
+   "edition": "diaria",
+   "headline": "EE. UU. paró sus vuelos, cumbre Trump-Xi-Putin en China y el caso Nvidia llega al Gobierno",
+   "coverUrl": "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/14ef/live/f4aae840-dfd7-11f1-b441-2b33b063138f.jpg",
+   "createdAt": "2026-11-14T07:50:00Z"
+  },
+  {
    "id": "2026-11-13-diaria",
    "date": "2026-11-13",
    "edition": "diaria",
