@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-15-semanal",
+   "date": "2026-11-15",
+   "edition": "semanal",
+   "headline": "La semana: cae Huang en Nvidia, la guerra de Irán llega a Baréin y EE. UU. se queda en tierra",
+   "coverUrl": "https://imagenes.elpais.com/resizer/v2/VZKWP23GGNJP7ELXKWKIZFOM5A.jpg?auth=1bc84a5913b0ce6bbe75e410a11f866f9b5319d56c20f41fee6b67eef47c01d4",
+   "createdAt": "2026-11-15T07:50:02Z"
+  },
+  {
    "id": "2026-11-14-diaria",
    "date": "2026-11-14",
    "edition": "diaria",
