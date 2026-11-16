@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-16-diaria",
+   "date": "2026-11-16",
+   "edition": "diaria",
+   "headline": "Huang quiere volver a Nvidia, cumbre Trump-Xi-Putin el jueves y Díaz renuncia a la OIT",
+   "coverUrl": "https://assets.rbl.ms/68691397/origin.jpg",
+   "createdAt": "2026-11-16T07:50:41Z"
+  },
+  {
    "id": "2026-11-15-semanal",
    "date": "2026-11-15",
    "edition": "semanal",
