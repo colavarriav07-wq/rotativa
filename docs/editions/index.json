@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-17-diaria",
+   "date": "2026-11-17",
+   "edition": "diaria",
+   "headline": "Filtración masiva del Deutsche Bank y nuevo cerco de EE. UU. a los chips de IA en China",
+   "coverUrl": "https://static01.nyt.com/images/2026/11/18/multimedia/17int-russia-deutschebank-01-gkjc/17int-russia-deutschebank-01-gkjc-mediumSquareAt3X.jpg",
+   "createdAt": "2026-11-17T07:50:09Z"
+  },
+  {
    "id": "2026-11-16-diaria",
    "date": "2026-11-16",
    "edition": "diaria",
