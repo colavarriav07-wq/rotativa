@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-18-diaria",
+   "date": "2026-11-18",
+   "edition": "diaria",
+   "headline": "Xi y Putin abren el APEC, Irán ataca el Golfo y la inflación británica sube al 3,6 %",
+   "coverUrl": "https://www.lavanguardia.com/files/og_thumbnail/uploads/2026/11/18/6afd458f874ad.jpeg",
+   "createdAt": "2026-11-18T07:50:09Z"
+  },
+  {
    "id": "2026-11-17-diaria",
    "date": "2026-11-17",
    "edition": "diaria",
