@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-19-diaria",
+   "date": "2026-11-19",
+   "edition": "diaria",
+   "headline": "Trump, Xi y Putin se reúnen en Shenzhen; Anthropic debuta en bolsa con la mayor OPV de la historia",
+   "coverUrl": "https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2026/11/19/17950680645123.jpg",
+   "createdAt": "2026-11-19T07:51:11Z"
+  },
+  {
    "id": "2026-11-18-diaria",
    "date": "2026-11-18",
    "edition": "diaria",
