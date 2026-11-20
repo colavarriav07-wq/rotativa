@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-20-diaria",
+   "date": "2026-11-20",
+   "edition": "diaria",
+   "headline": "Rusia ataca Kiev, las bolsas se hunden pese a Anthropic y Burnham cierra su cumbre en Bruselas",
+   "coverUrl": "https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2026/11/20/17951572581318.jpg",
+   "createdAt": "2026-11-20T07:50:41Z"
+  },
+  {
    "id": "2026-11-19-diaria",
    "date": "2026-11-19",
    "edition": "diaria",
