@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-21-diaria",
+   "date": "2026-11-21",
+   "edition": "diaria",
+   "headline": "Wall Street se hunde un 3,7 % por el miedo a la IA y dos misiles rusos caen en Polonia",
+   "coverUrl": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/7561x5041+0+0/resize/7561x5041!/quality/85/format/webp/?url=https%3A%2F%2Fnpr-production-npr.s3.us-east-1.amazonaws.com%2Fbrightspot%2Ffd%2F44%2Fb43d4bb943bb9b380c4b94631ed4%2Fap26321557592396.jpg",
+   "createdAt": "2026-11-21T07:50:47Z"
+  },
+  {
    "id": "2026-11-20-diaria",
    "date": "2026-11-20",
    "edition": "diaria",
