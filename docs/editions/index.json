@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-22-semanal",
+   "date": "2026-11-22",
+   "edition": "semanal",
+   "headline": "La semana en 10 historias: la IA sacude las bolsas, Irán incendia el Golfo y España vota el 29-N",
+   "coverUrl": "https://ichef.bbci.co.uk/ace/ws/976/cpsprodpb/eea7/live/5f3cbf00-e535-11f1-b232-9987117b4bfe.png",
+   "createdAt": "2026-11-22T07:50:24Z"
+  },
+  {
    "id": "2026-11-21-diaria",
    "date": "2026-11-21",
    "edition": "diaria",
