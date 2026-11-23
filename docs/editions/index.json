@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-23-diaria",
+   "date": "2026-11-23",
+   "edition": "diaria",
+   "headline": "El pánico por la IA sacude las bolsas, la COP31 fracasa y España vota el domingo",
+   "coverUrl": "https://ic-cdn.flipboard.com/apnews.com/4f2ad3727012fe0db05524fd0ed6b43e946d3700/_large.jpeg",
+   "createdAt": "2026-11-23T07:49:41Z"
+  },
+  {
    "id": "2026-11-22-semanal",
    "date": "2026-11-22",
    "edition": "semanal",
