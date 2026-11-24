@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-24-diaria",
+   "date": "2026-11-24",
+   "edition": "diaria",
+   "headline": "Huang vuelve a Nvidia y dispara las bolsas; arranca la última semana de campaña del 29-N",
+   "coverUrl": "https://static01.nyt.com/images/2026/11/24/multimedia/24int-theworld-nl-top-fkgc/24int-theworld-nl-top-fkgc-mediumSquareAt3X.jpg",
+   "createdAt": "2026-11-24T07:49:59Z"
+  },
+  {
    "id": "2026-11-23-diaria",
    "date": "2026-11-23",
    "edition": "diaria",
