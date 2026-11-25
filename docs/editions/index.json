@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-25-diaria",
+   "date": "2026-11-25",
+   "edition": "diaria",
+   "headline": "Se apaga el rebote de Huang, recta final del 29-N y la luz sube un 26 % en Reino Unido",
+   "coverUrl": "https://ic-cdn.flipboard.com/apnews.com/73cf3783ffac3701ebe32a2503028039f387851a/_large.webp",
+   "createdAt": "2026-11-25T07:49:46Z"
+  },
+  {
    "id": "2026-11-24-diaria",
    "date": "2026-11-24",
    "edition": "diaria",
