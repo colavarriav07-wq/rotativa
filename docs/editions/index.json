@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-26-diaria",
+   "date": "2026-11-26",
+   "edition": "diaria",
+   "headline": "EE. UU. amplía aranceles, Nvidia frena envíos a Asia y la UE se reúne dividida por el presupuesto",
+   "coverUrl": "https://cdn.i-scmp.com/sites/default/files/styles/1280x720/public/d8/images/canvas/2026/11/26/8877a2a4-cc5e-446d-909e-ac4ab4ddb6f7_fdbfe4f8.jpg?itok=H_GhKSXd&v=1795672147",
+   "createdAt": "2026-11-26T07:49:57Z"
+  },
+  {
    "id": "2026-11-25-diaria",
    "date": "2026-11-25",
    "edition": "diaria",
