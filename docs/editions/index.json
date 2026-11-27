@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-27-diaria",
+   "date": "2026-11-27",
+   "edition": "diaria",
+   "headline": "Cierra la campaña del 29-N; la UE sale sin pacto del presupuesto y las bolsas rebotan",
+   "coverUrl": "https://static.eldiario.es/clip/3d8c4e5e-5648-47c4-98c1-ccb4a9125ab5_16-9-discover-aspect-ratio_default_0.jpg",
+   "createdAt": "2026-11-27T07:48:49Z"
+  },
+  {
    "id": "2026-11-26-diaria",
    "date": "2026-11-26",
    "edition": "diaria",
