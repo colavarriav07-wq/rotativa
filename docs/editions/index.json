@@ -1,6 +1,14 @@
 {
  "editions": [
   {
+   "id": "2026-11-28-diaria",
+   "date": "2026-11-28",
+   "edition": "diaria",
+   "headline": "España vota mañana con el resultado abierto; EE. UU. y China reabren el pulso por aranceles y chips",
+   "coverUrl": "https://www.lavanguardia.com/files/og_thumbnail/uploads/2026/11/27/6b095db7e6282.jpeg",
+   "createdAt": "2026-11-28T07:50:49Z"
+  },
+  {
    "id": "2026-11-27-diaria",
    "date": "2026-11-27",
    "edition": "diaria",
